@@ -25,18 +25,18 @@ public abstract class SingleAnimal : PlayerController
     public override IEnumerator InvincibleTimer()
     {
         animator.SetTrigger("Hurt");
-        state = State.Hurt;
+        isInvincible = true;
 
         if(currentHP == 0)
         {
             animator.SetBool("isDeath", true);
-            //rb.simulated = false;
+            rb.simulated = false;
             state = State.Death;
         }
         else
         {
             yield return new WaitForSeconds(invincibleDuration);
-            state = State.Default;
+            isInvincible = false;
         }
 
        yield return null;

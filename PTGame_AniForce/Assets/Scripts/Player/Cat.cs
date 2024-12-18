@@ -24,6 +24,11 @@ public class Cat : SingleAnimal
         Flip();
         yield return new WaitForSeconds(skillDuration / 4);
 
+        if(skillSound)
+        {
+            audioSource.PlayOneShot(skillSound);
+        }
+        
         rb.AddForce(new Vector2(skillDashForce.x * (int)direction, skillDashForce.y), ForceMode2D.Impulse);
         yield return new WaitForSeconds(skillDuration / 4);
         
@@ -40,5 +45,27 @@ public class Cat : SingleAnimal
         }
 
         base.ChangeHealth(amount);
+    }
+
+    override protected void OnCollisionEnter2D(Collision2D other) {
+
+        if(state == State.Attack || state == State.Skill)
+        {
+            // get opponent component   
+            float dmgDeal = 0;
+
+            if(state == State.Attack)
+            {
+                dmgDeal = atk;
+            }
+            else
+            {
+                dmgDeal = atk * skillAmp;
+            }
+
+            // oppenent change health(dmgDeal)
+        }
+        
+        base.OnCollisionEnter2D(other);
     }
 }
