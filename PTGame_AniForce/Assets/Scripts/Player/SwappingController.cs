@@ -11,17 +11,22 @@ public class SwappingController : MonoBehaviour
     public static SwappingController instance;
 
     // pool
-    [SerializeField] private List<GameObject> animalsToPool;
-    private List<GameObject> animalsOnPool;
-
+    [SerializeField] private List<GameObject> animalsOnPool;
+    private List<GameObject> animalsToPool;
     // random
-    private GameObject currentCharacter;
     private int choice;
     private bool canRandom;
     [SerializeField] float randomCooldown;
 
     // first spawn position
     [SerializeField] Vector2 spawnPosition;
+
+    // swap fx
+    [SerializeField] private GameObject swapVFX;
+    private GameObject swapVFXOnScreen;
+    [SerializeField] private AudioClip swapSFX;
+    private AudioSource audioSource;
+    [SerializeField] private float fixedY;
 
     private void Awake() {
         instance = this;
@@ -31,22 +36,27 @@ public class SwappingController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        animalsOnPool = new List<GameObject>();
+        choice = 0;
+        canRandom = true;
+        swapVFXOnScreen = Instantiate(swapVFX);
+        audioSource = GetComponent<AudioSource>();
+        animalsToPool = new List<GameObject>();
 
-        foreach(GameObject animal in animalsToPool)
+        if(animalsOnPool.Count == 0)
         {
-            GameObject newCharacter = Instantiate(animal);
-            animalsOnPool.Add(newCharacter);
-            newCharacter.SetActive(false);
+            return;
         }
 
-        choice = 0;
-        currentCharacter = animalsOnPool[choice];
-        currentCharacter.transform.position = spawnPosition;
-        Debug.Log(currentCharacter.transform.localScale);
-        canRandom = true;
+        foreach(var animal in animalsOnPool)
+        {
+            GameObject temp = Instantiate(animal);
+            temp.SetActive(false);
+            animalsToPool.Add(temp);
+        }
+
+        animalsToPool[choice].transform.position = spawnPosition;
+
         GetRandomAnimal();
-        Debug.Log(currentCharacter.transform.localScale);
     }
 
     // Update is called once per frame
@@ -65,18 +75,21 @@ public class SwappingController : MonoBehaviour
             return;
         }
 
-        while(animalsOnPool[choice] == currentCharacter)
+        int previousChoice = choice;
+
+        while(previousChoice == choice)
         {
             choice = Random.Range(0, animalsOnPool.Count);
         }
 
-        animalsOnPool[choice].SetActive(true);
+        animalsToPool[choice].SetActive(true);
+        animalsToPool[choice].transform.position = animalsToPool[previousChoice].transform.position;
+        animalsToPool[previousChoice].SetActive(false);
 
+        swapVFXOnScreen.transform.position = new Vector2(animalsToPool[choice].transform.position.x, fixedY);
+        swapVFXOnScreen.GetComponent<Animator>().SetTrigger("Swap");
+        audioSource.PlayOneShot(swapSFX);
 
-        animalsOnPool[choice].GetComponent<PlayerController>().TakeControl(currentCharacter.transform.position);
-        currentCharacter.SetActive(false);
-        currentCharacter = animalsOnPool[choice];
-        
         StartCoroutine(RandomCooldown());
     }
 

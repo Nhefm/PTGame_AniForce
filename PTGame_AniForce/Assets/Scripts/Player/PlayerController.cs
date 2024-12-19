@@ -44,11 +44,14 @@ public abstract class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     virtual protected void Start()
     {
-        currentHP = maxHP;
         rb = GetComponent<Rigidbody2D>();
         audioSource = GetComponent<AudioSource>();
         direction = Direction.Right;
-        transform.localScale = new Vector2(1, transform.localScale.y);
+    }
+
+    virtual protected void OnEnable()
+    {
+        currentHP = maxHP;
         state = State.Default;
         canAttack = true;
         canSkill = true;
@@ -221,27 +224,4 @@ public abstract class PlayerController : MonoBehaviour
         
         return currentHP / maxHP;
     }
-
-    virtual public void TakeControl(Vector3 currentPosition)
-    {
-        if(state != State.Default)
-        {
-            return;
-        }
-
-        transform.position = currentPosition;
-
-        // reset stats
-        currentHP = maxHP;
-        canAttack = true;
-        canSkill = true;
-        isInvincible = false;
-        state = State.Default;
-        
-        if(direction != Direction.Right)
-        {
-            Flip();
-        }
-    }
-
 }

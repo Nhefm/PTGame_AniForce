@@ -9,7 +9,6 @@ public class Pigeons : MonoBehaviour
     [SerializeField] private AudioClip attackSound;
     private bool canAttack;
     private AudioSource audioSource;
-
     void Start()
     {
         audioSource = GetComponent<AudioSource>();

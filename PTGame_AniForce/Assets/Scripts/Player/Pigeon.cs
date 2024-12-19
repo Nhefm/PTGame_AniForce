@@ -25,24 +25,28 @@ public class Pigeon : SingleAnimal
     // skill
     [SerializeField] private GameObject pigeons;
     private GameObject storedPigeons;
-    
 
     // Start is called before the first frame update
     override protected void Start()
     {
         base.Start();
+        storedPigeons = Instantiate(pigeons);
+        storedPigeons.SetActive(false);
+    }
+
+    protected override void OnEnable()
+    {
+        base.OnEnable();
         mana = maxMana;
         counter = 0;
         canFlyHigh = true;
         isFlyingHigh = false;
-        storedPigeons = Instantiate(pigeons);
-        storedPigeons.SetActive(false);
     }
 
 
     public override void Jump(KeyCode keyCode)
     {
-        Debug.Log(mana + "/" + maxMana);
+        // Debug.Log(mana + "/" + maxMana);
 
         if (state == State.Death)
         {
@@ -141,14 +145,5 @@ public class Pigeon : SingleAnimal
     public void DealDamage() // add enemy
     {
         // deal atk damage
-    }
-
-    public override void TakeControl(Vector3 currentPosition)
-    {
-        base.TakeControl(currentPosition);
-        mana = maxMana;
-        counter = 0;
-        canFlyHigh = true;
-        isFlyingHigh = false;
     }
 }
