@@ -123,11 +123,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   atk: 0
-  maxHP: 0
+  maxHP: 3
   speed: 2
   jumpForce: 0
   skillAmp: 0
-  invincibleDuration: 0
+  invincibleDuration: 1
   attackDuration: 0
   skillDuration: 0
   attackCooldown: 0.5
@@ -210,7 +210,7 @@ Rigidbody2D:
     serializedVersion: 2
     m_Bits: 0
   m_Interpolate: 0
-  m_SleepingMode: 1
+  m_SleepingMode: 0
   m_CollisionDetection: 0
   m_Constraints: 4
 --- !u!82 &1186254493131344289

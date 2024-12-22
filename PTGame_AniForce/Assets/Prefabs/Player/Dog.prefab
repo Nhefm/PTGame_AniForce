@@ -209,7 +209,7 @@ Rigidbody2D:
     serializedVersion: 2
     m_Bits: 0
   m_Interpolate: 0
-  m_SleepingMode: 1
+  m_SleepingMode: 0
   m_CollisionDetection: 0
   m_Constraints: 4
 --- !u!61 &1309586970904563687
@@ -291,11 +291,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   atk: 0
-  maxHP: 0
+  maxHP: 5
   speed: 2
   jumpForce: 5
   skillAmp: 0
-  invincibleDuration: 0.5
+  invincibleDuration: 1
   attackDuration: 0.5
   skillDuration: 0.5
   attackCooldown: 1

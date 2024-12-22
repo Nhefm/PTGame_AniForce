@@ -61,11 +61,17 @@ public abstract class PlayerController : MonoBehaviour
     
     virtual protected void Update()
     {
+        Debug.Log(currentHP + "/" + maxHP + " " + isInvincible);
         Move();
     }
 
     virtual protected void OnEnable()
     {
+        if(state == State.Death)
+        {
+            return;
+        }
+
         currentHP = maxHP;
         state = State.Default;
         canAttack = true;
@@ -99,11 +105,15 @@ public abstract class PlayerController : MonoBehaviour
             {
                 audioSource.PlayOneShot(hurtSound);
             }
-            
+        }
+
+        currentHP = Mathf.Clamp(currentHP + amount, 0, maxHP);
+
+        if(amount < 0)
+        {
             StartCoroutine(InvincibleTimer());
         }
         
-        currentHP = Mathf.Clamp(currentHP + amount, 0, maxHP);
         //UIHealthBar.instance.SetValue((float)currentHealth / maxHealth);
     }
 
