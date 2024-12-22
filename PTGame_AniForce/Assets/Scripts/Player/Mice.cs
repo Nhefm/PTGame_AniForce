@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Mice : PlayerController
 {
@@ -49,16 +50,18 @@ public class Mice : PlayerController
     }
 
     // Update is called once per frame
-    protected override void Update()
+    override protected void Update()
     {
         base.Update();
 
         for(int i = transform.childCount - amountToPool; i < transform.childCount; i++)
         {
             Animator childAnimator = transform.GetChild(i).GetComponent<Animator>();
-            childAnimator.SetFloat("speed", Mathf.Abs(horizontal));
+            childAnimator.SetFloat("speed", Mathf.Abs(inputValue.x));
             childAnimator.SetFloat("yVelocity", rb.velocity.y);
         }
+
+        Attack();
     }
 
     public override IEnumerator InvincibleTimer()
@@ -87,7 +90,7 @@ public class Mice : PlayerController
         yield return null;
     }
 
-    public override void Attack(KeyCode keyCode)
+    public void Attack()
     {
         if(!canAttack)
         {

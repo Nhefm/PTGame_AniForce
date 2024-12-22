@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public abstract class PlayerController : MonoBehaviour
 {
@@ -26,7 +27,8 @@ public abstract class PlayerController : MonoBehaviour
 
     // components
     protected Rigidbody2D rb;
-    protected float horizontal;
+    protected PlayerInputAction inputActions;
+    protected Vector2 inputValue;
     protected AudioSource audioSource;
 
     // audio clip
@@ -47,6 +49,19 @@ public abstract class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         audioSource = GetComponent<AudioSource>();
         direction = Direction.Right;
+        inputActions = new PlayerInputAction();
+        inputActions.Player.Enable();
+
+        inputActions.Player.Move.performed += Move;
+        inputActions.Player.Move.canceled += Move;
+        inputActions.Player.Jump.performed += Jump;
+        inputActions.Player.Attack.performed += Attack;
+        inputActions.Player.Skill.performed += Skill;
+    }
+    
+    virtual protected void Update()
+    {
+        Move();
     }
 
     virtual protected void OnEnable()
@@ -56,17 +71,19 @@ public abstract class PlayerController : MonoBehaviour
         canAttack = true;
         canSkill = true;
         isInvincible = false;
+
+        if(inputActions != null)
+        {
+            inputActions.Player.Enable();
+        }
     }
 
-    // Update is called once per frame
-    virtual protected void Update()
-    {
-        // Debug.Log(state);
-        horizontal = Input.GetAxis("Horizontal");
-        Move();
-        Jump(KeyCode.Space);
-        Attack(KeyCode.Mouse0);
-        Skill(KeyCode.E);
+    virtual protected void OnDisable() {
+
+        if(inputActions != null)
+        {
+            inputActions.Player.Disable();
+        }
     }
 
     virtual public void ChangeHealth(float amount)
@@ -92,6 +109,19 @@ public abstract class PlayerController : MonoBehaviour
 
     abstract public IEnumerator InvincibleTimer();
 
+    virtual public void Move(InputAction.CallbackContext context)
+    {
+        if(context.performed)
+        {
+            inputValue = context.ReadValue<Vector2>();
+        }
+
+        if(context.canceled)
+        {
+            inputValue = Vector2.zero;
+        }
+    }
+
     virtual public void Move()
     {
         if(state != State.Default && state != State.Jump)
@@ -99,9 +129,9 @@ public abstract class PlayerController : MonoBehaviour
             return;
         }
 
-        transform.Translate(speed * Time.deltaTime * horizontal * Vector2.right);
+        transform.Translate(speed * Time.deltaTime * inputValue);
 
-        if(horizontal * (int)direction < 0)
+        if(inputValue.x * (int)direction < 0)
         {
             Flip();
         }
@@ -113,9 +143,9 @@ public abstract class PlayerController : MonoBehaviour
         transform.localScale = new Vector2(transform.localScale.x * -1, transform.localScale.y);
     }
 
-    virtual public void Jump(KeyCode keyCode)
+    virtual public void Jump(InputAction.CallbackContext context)
     {
-        if(!Input.GetKeyDown(keyCode))
+        if(!context.performed)
         {
             return;
         }
@@ -128,9 +158,9 @@ public abstract class PlayerController : MonoBehaviour
         rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         state = State.Jump;
     }
-    virtual public void Attack(KeyCode keyCode)
+    virtual public void Attack(InputAction.CallbackContext context)
     {
-        if(!Input.GetKeyDown(keyCode))
+        if(!context.performed)
         {
             return;
         }
@@ -173,9 +203,9 @@ public abstract class PlayerController : MonoBehaviour
         canAttack = true;
     }
 
-    virtual public void Skill(KeyCode keyCode)
+    virtual public void Skill(InputAction.CallbackContext context)
     {
-        if(!Input.GetKeyDown(keyCode))
+        if(!context.performed)
         {
             return;
         }

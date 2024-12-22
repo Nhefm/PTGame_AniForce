@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Pigeon : SingleAnimal
 {
@@ -43,8 +44,21 @@ public class Pigeon : SingleAnimal
         isFlyingHigh = false;
     }
 
+    protected override void Update()
+    {
+        base.Update();
+        Fly();
+    }
 
-    public override void Jump(KeyCode keyCode)
+    public override void Jump(InputAction.CallbackContext context)
+    {
+        if(context.performed)
+        {
+            SwitchFlyMode();
+        }
+    }
+
+    public void Fly()
     {
         // Debug.Log(mana + "/" + maxMana);
 
@@ -78,11 +92,6 @@ public class Pigeon : SingleAnimal
         if(!canFlyHigh)
         {
             return;
-        }
-
-        if(Input.GetKeyDown(keyCode))
-        {
-            SwitchFlyMode();
         }
     }
 
@@ -119,14 +128,14 @@ public class Pigeon : SingleAnimal
         storedPigeons.transform.position = new Vector2(startPos, high);
     }
 
-    public override void Attack(KeyCode keyCode)
+    public override void Attack(InputAction.CallbackContext context)
     {
         if(counter < Mathf.Lerp(0, 1, rangeCanAttack))
         {
             return;
         }
 
-        base.Attack(keyCode);
+        base.Attack(context);
     }
 
     public override IEnumerator AttackTimer()

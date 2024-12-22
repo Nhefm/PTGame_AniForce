@@ -18,7 +18,7 @@ public abstract class SingleAnimal : PlayerController
     override protected void Update()
     {
         base.Update();
-        animator.SetFloat("speed", Mathf.Abs(horizontal));
+        animator.SetFloat("speed", Mathf.Abs(inputValue.x));
         animator.SetFloat("yVelocity", rb.velocity.y);
     }
 
