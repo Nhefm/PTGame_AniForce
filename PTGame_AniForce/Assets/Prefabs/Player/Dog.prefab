@@ -302,6 +302,7 @@ MonoBehaviour:
   hurtSound: {fileID: 8300000, guid: 8b4d71fef4f16be4088129ee6b29725a, type: 3}
   attackSound: {fileID: 8300000, guid: 28956044e1b9d2040bd98fa1f6e55194, type: 3}
   skillSound: {fileID: 8300000, guid: bc1f6fbb2b955c747bcee02bf9a0de50, type: 3}
+  slopeCheckDistance: 10
   attackDashForce: {x: 4, y: 3}
 --- !u!82 &7754603108645563944
 AudioSource:

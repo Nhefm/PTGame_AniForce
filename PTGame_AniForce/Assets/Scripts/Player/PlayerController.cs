@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public abstract class PlayerController : MonoBehaviour
@@ -30,6 +31,7 @@ public abstract class PlayerController : MonoBehaviour
     protected PlayerInputAction inputActions;
     protected Vector2 inputValue;
     protected AudioSource audioSource;
+    protected BoxCollider2D bc;
 
     // audio clip
     [SerializeField] protected AudioClip hurtSound;
@@ -43,11 +45,15 @@ public abstract class PlayerController : MonoBehaviour
     public enum Direction {Left = -1, Right = 1}
     public enum State {Default, Jump, Attack, Skill, Death}
 
+    // slope
+    [SerializeField] protected float slopeCheckDistance;
+
     // Start is called before the first frame update
     virtual protected void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         audioSource = GetComponent<AudioSource>();
+        bc = GetComponent<BoxCollider2D>();
         direction = Direction.Right;
         inputActions = new PlayerInputAction();
         inputActions.Player.Enable();
@@ -61,7 +67,7 @@ public abstract class PlayerController : MonoBehaviour
     
     virtual protected void Update()
     {
-        Debug.Log(currentHP + "/" + maxHP + " " + isInvincible);
+        SlopeHandler();
         Move();
     }
 
@@ -263,5 +269,33 @@ public abstract class PlayerController : MonoBehaviour
         if(maxHP == 0) return 1;
         
         return currentHP / maxHP;
+    }
+
+    public void SlopeHandler()
+    {
+        Vector2 checkPos = transform.position + Vector3.right * bc.size.x / 2 * (int)direction;
+        RaycastHit2D hit = Physics2D.Raycast(checkPos, Vector2.down, slopeCheckDistance, LayerMask.GetMask("Ground"));
+
+        if(!hit)
+        {
+            return;
+        }
+
+        Debug.DrawRay(hit.point, hit.normal, Color.green);
+
+        Vector2 slopeNormalPerp = Vector2.Perpendicular(hit.normal).normalized;
+
+        if(Vector2.Angle(hit.normal, Vector2.up) == 0)
+        {
+            return;
+        }
+
+        if(state != State.Default)
+        {
+            return;
+        }
+
+        rb.velocity = Vector2.zero;
+        // transform.position = new Vector2(checkPos.x, hit.point.y);
     }
 }

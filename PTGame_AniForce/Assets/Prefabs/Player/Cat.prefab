@@ -206,6 +206,7 @@ MonoBehaviour:
   hurtSound: {fileID: 8300000, guid: 3e7413e674441e349a1619be43149536, type: 3}
   attackSound: {fileID: 8300000, guid: c9a5d2429396fb648a6b81644af80a7e, type: 3}
   skillSound: {fileID: 8300000, guid: 20c7fb622b11dd3429813e805fe42f6b, type: 3}
+  slopeCheckDistance: 10
   skillDashForce: {x: 4, y: 3}
   attackDashForce: {x: 4, y: 3}
 --- !u!82 &8199700828765616435

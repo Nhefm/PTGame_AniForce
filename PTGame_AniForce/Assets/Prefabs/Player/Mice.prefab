@@ -441,9 +441,10 @@ MonoBehaviour:
   hurtSound: {fileID: 8300000, guid: cbf121067732d2b428b3c0291adb942c, type: 3}
   attackSound: {fileID: 0}
   skillSound: {fileID: 8300000, guid: a161d7ced6018ac478bc91d52605db79, type: 3}
+  slopeCheckDistance: 10
   objectToPool: {fileID: 4238606947545077032, guid: b3be7bd78d3f480409062df6fa7a1ee9, type: 3}
   amountToPool: 5
-  distanceScale: 0.08
+  distanceScale: 0.06
 --- !u!82 &2370848663478288020
 AudioSource:
   m_ObjectHideFlags: 0

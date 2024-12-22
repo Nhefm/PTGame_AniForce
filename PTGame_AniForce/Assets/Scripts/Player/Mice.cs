@@ -13,15 +13,11 @@ public class Mice : PlayerController
     [SerializeField] private int amountToPool;
     [SerializeField] private float distanceScale;
 
-    // component
-    private BoxCollider2D collider2d;
-
     // Start is called before the first frame update
     override protected void Start()
     {
         base.Start();
         GameObject temp;
-        collider2d = GetComponent<BoxCollider2D>();
         int order = 0;
 
         for(int i = amountToPool; i > 0; i--)
@@ -135,7 +131,7 @@ public class Mice : PlayerController
         }
 
         Vector2 mouseSize = objectToPool.GetComponent<SpriteRenderer>().bounds.size;
-        collider2d.size = new Vector2(mouseSize.x + (mouseNumber - 1) * distanceScale, mouseSize.y);
+        bc.size = new Vector2(mouseSize.x + (mouseNumber - 1) * distanceScale, mouseSize.y);
 
         atk = maxAtk * mouseNumber / amountToPool;
     }

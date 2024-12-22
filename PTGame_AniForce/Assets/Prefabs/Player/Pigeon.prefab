@@ -134,6 +134,7 @@ MonoBehaviour:
   hurtSound: {fileID: 8300000, guid: 46bbb55015c79ef468aba40de0f13bf4, type: 3}
   attackSound: {fileID: 8300000, guid: c3df692fbfd17994584c04e6ae41fde4, type: 3}
   skillSound: {fileID: 8300000, guid: 5a2b3897b32442b49824be5a38122b0c, type: 3}
+  slopeCheckDistance: 10
   maxMana: 3
   flyCooldown: 1
   flySound: {fileID: 8300000, guid: 6e9d4ea1a2e204149b2a1eade7eae318, type: 3}

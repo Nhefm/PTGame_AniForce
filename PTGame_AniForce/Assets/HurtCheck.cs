@@ -18,7 +18,7 @@ public class HurtCheck : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D other) {
         var player = other.GetComponent<PlayerController>();
-        Debug.Log(player);
+
         if(player != null)
         {
             player.ChangeHealth(-1);
