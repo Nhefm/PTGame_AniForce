@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,10 +19,9 @@ public class Pigeon : SingleAnimal
 
     // fly mode
     private bool isFlyingHigh;
-    [SerializeField] private float low;
-    [SerializeField] private float high;
-    [SerializeField] private float rangeCanAttack;
-    private float counter;
+    [SerializeField] private float distanceFromGround;
+    [SerializeField] private float maxFlyHeight;
+    private RaycastHit2D hit;
     
     // skill
     [SerializeField] private GameObject pigeons;
@@ -39,7 +39,6 @@ public class Pigeon : SingleAnimal
     {
         base.OnEnable();
         mana = maxMana;
-        counter = 0;
         canFlyHigh = true;
         isFlyingHigh = false;
     }
@@ -47,11 +46,37 @@ public class Pigeon : SingleAnimal
     protected override void Update()
     {
         base.Update();
+        ManaChange();
         Fly();
+    }
+
+    public override void Move(InputAction.CallbackContext context)
+    {
+        base.Move(context);
+
+        if(!isFlyingHigh)
+        {
+            return;
+        }
+        
+        if(context.performed)
+        {
+            inputValue = context.ReadValue<Vector2>();
+        }
     }
 
     public override void Jump(InputAction.CallbackContext context)
     {
+        if(!canFlyHigh)
+        {
+            return;
+        }
+
+        if (state == State.Death)
+        {
+            return;
+        }
+
         if(context.performed)
         {
             SwitchFlyMode();
@@ -60,37 +85,36 @@ public class Pigeon : SingleAnimal
 
     public void Fly()
     {
-        // Debug.Log(mana + "/" + maxMana);
+        float y = Mathf.Clamp(transform.position.y, hit.point.y + distanceFromGround, maxFlyHeight);
 
-        if (state == State.Death)
+        if(isFlyingHigh)
         {
-            return;
+            y = Mathf.Clamp(transform.position.y, hit.point.y, maxFlyHeight);
+        }
+        else if(transform.position.y < hit.point.y + distanceFromGround)
+        {
+            y = Mathf.Lerp(transform.position.y, hit.point.y + distanceFromGround, Time.deltaTime);
+            
         }
 
-        float deltaCounter = -Time.deltaTime;
+        transform.position = new Vector3(transform.position.x, y, transform.position.z);
+    }
+
+    public void ManaChange()
+    {
+        Debug.Log(mana + "/" + maxMana);
         float deltaMana = Time.deltaTime;
 
         if (isFlyingHigh)
         {
-            deltaCounter = Time.deltaTime;
             deltaMana = -Time.deltaTime;
         }
 
-        counter = Mathf.Clamp(counter + deltaCounter, 0, 1);
         mana = Mathf.Clamp(mana + deltaMana, 0, maxMana);
         
         if(mana == 0)
         {
             SwitchFlyMode();
-            return;
-        }
-
-        float y = Mathf.Lerp(low, high, counter);
-        transform.position = new Vector3(transform.position.x, y, transform.position.z);
-        rb.velocity = new Vector2(rb.velocity.x, 0);
-
-        if(!canFlyHigh)
-        {
             return;
         }
     }
@@ -101,10 +125,13 @@ public class Pigeon : SingleAnimal
 
         if(!isFlyingHigh)
         {
+            rb.gravityScale = 1;
             StartCoroutine(FlyCooldown());
         }
         else
         {
+            rb.gravityScale = 0;
+
             if(flySound)
             {
                 audioSource.PlayOneShot(flySound);
@@ -125,12 +152,12 @@ public class Pigeon : SingleAnimal
 
         float startPos = Camera.main.ScreenToWorldPoint(Vector3.zero).x;
         storedPigeons.SetActive(true);
-        storedPigeons.transform.position = new Vector2(startPos, high);
+        storedPigeons.transform.position = new Vector2(startPos, maxFlyHeight);
     }
 
     public override void Attack(InputAction.CallbackContext context)
     {
-        if(counter < Mathf.Lerp(0, 1, rangeCanAttack))
+        if(!isFlyingHigh)
         {
             return;
         }
@@ -154,5 +181,20 @@ public class Pigeon : SingleAnimal
     public void DealDamage() // add enemy
     {
         // deal atk damage
+    }
+
+    public override void SlopeHandler()
+    {
+        Vector2 checkPos = transform.position + Vector3.right * bc.size.x / 2 * (int)direction;
+        hit = Physics2D.Raycast(checkPos, Vector2.down, slopeCheckDistance, LayerMask.GetMask("Ground"));
+
+        Debug.DrawRay(hit.point, hit.normal, Color.green);
+
+        if(state != State.Default)
+        {
+            return;
+        }
+
+        rb.velocity = Vector2.zero;
     }
 }

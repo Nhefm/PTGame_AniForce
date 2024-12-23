@@ -129,7 +129,7 @@ public abstract class PlayerController : MonoBehaviour
     {
         if(context.performed)
         {
-            inputValue = context.ReadValue<Vector2>();
+            inputValue = Vector2.right * context.ReadValue<Vector2>();
         }
 
         if(context.canceled)
@@ -271,7 +271,7 @@ public abstract class PlayerController : MonoBehaviour
         return currentHP / maxHP;
     }
 
-    public void SlopeHandler()
+    virtual public void SlopeHandler()
     {
         Vector2 checkPos = transform.position + Vector3.right * bc.size.x / 2 * (int)direction;
         RaycastHit2D hit = Physics2D.Raycast(checkPos, Vector2.down, slopeCheckDistance, LayerMask.GetMask("Ground"));
@@ -282,8 +282,6 @@ public abstract class PlayerController : MonoBehaviour
         }
 
         Debug.DrawRay(hit.point, hit.normal, Color.green);
-
-        Vector2 slopeNormalPerp = Vector2.Perpendicular(hit.normal).normalized;
 
         if(Vector2.Angle(hit.normal, Vector2.up) == 0)
         {
@@ -296,6 +294,5 @@ public abstract class PlayerController : MonoBehaviour
         }
 
         rb.velocity = Vector2.zero;
-        // transform.position = new Vector2(checkPos.x, hit.point.y);
     }
 }

@@ -135,12 +135,11 @@ MonoBehaviour:
   attackSound: {fileID: 8300000, guid: c3df692fbfd17994584c04e6ae41fde4, type: 3}
   skillSound: {fileID: 8300000, guid: 5a2b3897b32442b49824be5a38122b0c, type: 3}
   slopeCheckDistance: 10
-  maxMana: 3
+  maxMana: 5
   flyCooldown: 1
   flySound: {fileID: 8300000, guid: 6e9d4ea1a2e204149b2a1eade7eae318, type: 3}
-  low: 1
-  high: 2
-  rangeCanAttack: 0.25
+  distanceFromGround: 1
+  maxFlyHeight: 3
   pigeons: {fileID: 5636179086832894034, guid: ffc81da881576784fb7a501c6db1fc04, type: 3}
 --- !u!61 &2747140843460168472
 BoxCollider2D:
@@ -201,7 +200,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
