@@ -257,10 +257,20 @@ public abstract class PlayerController : MonoBehaviour
 
     virtual protected void OnCollisionEnter2D(Collision2D other) {
 
-        if(state == State.Jump & other.collider.CompareTag("Ground"))
+        if(!other.collider.CompareTag("Ground"))
+        {
+            return;
+        }
+
+        rb.velocity = Vector2.zero;
+        
+        if(state == State.Jump)
         {
             state = State.Default;
-            rb.velocity = new Vector2(rb.velocity.x, 0);
+        }
+        else if(state == State.Death)
+        {
+            rb.simulated = false;
         }
     }
 

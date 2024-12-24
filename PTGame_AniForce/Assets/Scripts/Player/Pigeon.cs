@@ -85,6 +85,11 @@ public class Pigeon : SingleAnimal
 
     public void Fly()
     {
+        if(state == State.Death)
+        {
+            return;
+        }
+        
         float y = Mathf.Clamp(transform.position.y, hit.point.y + distanceFromGround, maxFlyHeight);
 
         if(isFlyingHigh)

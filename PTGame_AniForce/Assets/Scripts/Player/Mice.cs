@@ -72,7 +72,6 @@ public class Mice : PlayerController
 
         if(currentHP == 0)
         {
-            rb.simulated = false;
             state = State.Death;
             transform.GetChild(transform.childCount - 1).GetComponent<Animator>().SetBool("isDeath", true);
         }
