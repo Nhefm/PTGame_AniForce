@@ -2,14 +2,20 @@
 #
 # Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
 #
-/[Ll]ibrary/
-/[Tt]emp/
-/[Oo]bj/
-/[Bb]uild/
-/[Bb]uilds/
-/[Ll]ogs/
-/[Uu]ser[Ss]ettings/
-
+PTGame_AniForce/[Ll]ibrary/
+PTGame_AniForce/[Tt]emp/
+PTGame_AniForce/[Oo]bj/
+PTGame_AniForce/[Bb]uild/
+PTGame_AniForce/[Bb]uilds/
+PTGame_AniForce/[Ll]ogs/
+PTGame_AniForce/[Uu]ser[Ss]ettings/
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
 /[Mm]emoryCaptures/
@@ -24,7 +30,7 @@
 /[Aa]ssets/Plugins/Editor/JetBrains*
 
 # Visual Studio cache directory
-.vs/
+PTGame_AniForce/.vs/
 
 # Gradle cache directory
 .gradle/
