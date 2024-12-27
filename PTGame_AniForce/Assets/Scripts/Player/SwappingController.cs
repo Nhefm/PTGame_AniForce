@@ -4,6 +4,7 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using Cinemachine;
 
 public class SwappingController : MonoBehaviour
 {
@@ -28,6 +29,10 @@ public class SwappingController : MonoBehaviour
     private AudioSource audioSource;
     [SerializeField] private float fixedY;
 
+    // cinemachine
+    [SerializeField] private GameObject cameraObject;
+    private CinemachineVirtualCamera cinemachine;
+
     private void Awake() {
         instance = this;
         DontDestroyOnLoad(gameObject);
@@ -41,6 +46,7 @@ public class SwappingController : MonoBehaviour
         swapVFXOnScreen = Instantiate(swapVFX);
         audioSource = GetComponent<AudioSource>();
         animalsToPool = new List<GameObject>();
+        cinemachine = cameraObject.GetComponent<CinemachineVirtualCamera>();
 
         if(animalsOnPool.Count == 0)
         {
@@ -86,7 +92,9 @@ public class SwappingController : MonoBehaviour
         animalsToPool[choice].transform.position = animalsToPool[previousChoice].transform.position;
         animalsToPool[previousChoice].SetActive(false);
 
-        swapVFXOnScreen.transform.position = new Vector2(animalsToPool[choice].transform.position.x, fixedY);
+        cinemachine.m_Follow = animalsToPool[choice].transform;
+
+        swapVFXOnScreen.transform.position = animalsToPool[choice].transform.position;
         swapVFXOnScreen.GetComponent<Animator>().SetTrigger("Swap");
         audioSource.PlayOneShot(swapSFX);
 

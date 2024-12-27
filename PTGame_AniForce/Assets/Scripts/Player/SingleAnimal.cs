@@ -30,6 +30,7 @@ public abstract class SingleAnimal : PlayerController
         if(currentHP == 0)
         {
             animator.SetBool("isDeath", true);
+            rb.gravityScale = 1;
             state = State.Death;
         }
         else

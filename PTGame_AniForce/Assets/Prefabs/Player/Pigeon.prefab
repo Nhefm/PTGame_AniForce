@@ -98,7 +98,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: -913270758, guid: fb99f1208ee5c0948b24aa9e8a5553dc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -124,7 +124,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   atk: 0
   maxHP: 3
-  speed: 2
+  speed: 3
   jumpForce: 0
   skillAmp: 0
   invincibleDuration: 1
@@ -139,7 +139,8 @@ MonoBehaviour:
   flyCooldown: 1
   flySound: {fileID: 8300000, guid: 6e9d4ea1a2e204149b2a1eade7eae318, type: 3}
   distanceFromGround: 1
-  maxFlyHeight: 3
+  maxFlyHeight: 18
+  fallSpeed: 0.03
   pigeons: {fileID: 5636179086832894034, guid: ffc81da881576784fb7a501c6db1fc04, type: 3}
 --- !u!61 &2747140843460168472
 BoxCollider2D:
@@ -173,18 +174,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.004417181, y: 0.011779219}
+  m_Offset: {x: 0.0005878508, y: 0.02230978}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.38, y: 0.26}
+    oldSize: {x: 0.59375, y: 0.40625}
     newSize: {x: 0.14, y: 0.13}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.4065032, y: 0.26588959}
+  m_Size: {x: 0.6017968, y: 0.36736584}
   m_EdgeRadius: 0
 --- !u!50 &6474927868669833418
 Rigidbody2D:
@@ -201,7 +202,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2

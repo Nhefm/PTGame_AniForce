@@ -47,6 +47,7 @@ public abstract class PlayerController : MonoBehaviour
 
     // slope
     [SerializeField] protected float slopeCheckDistance;
+    protected RaycastHit2D hit;
 
     // Start is called before the first frame update
     virtual protected void Start()
@@ -55,6 +56,7 @@ public abstract class PlayerController : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         bc = GetComponent<BoxCollider2D>();
         direction = Direction.Right;
+        inputValue = Vector2.zero;
         inputActions = new PlayerInputAction();
         inputActions.Player.Enable();
 
@@ -67,7 +69,12 @@ public abstract class PlayerController : MonoBehaviour
     
     virtual protected void Update()
     {
+        if(state == State.Jump) Debug.Log(rb.velocity.y);
         SlopeHandler();
+    }
+
+    protected void FixedUpdate()
+    {
         Move();
     }
 
@@ -145,7 +152,7 @@ public abstract class PlayerController : MonoBehaviour
             return;
         }
 
-        transform.Translate(speed * Time.deltaTime * inputValue);
+        rb.MovePosition(transform.position + speed * Time.deltaTime * (Vector3)inputValue);
 
         if(inputValue.x * (int)direction < 0)
         {
@@ -171,6 +178,7 @@ public abstract class PlayerController : MonoBehaviour
             return;
         }
 
+        rb.gravityScale = 1;
         rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         state = State.Jump;
     }
@@ -255,14 +263,23 @@ public abstract class PlayerController : MonoBehaviour
         canSkill = true;
     }
 
-    virtual protected void OnCollisionEnter2D(Collision2D other) {
+    virtual protected void OnCollisionStay2D(Collision2D other) {
 
         if(!other.collider.CompareTag("Ground"))
         {
             return;
         }
 
-        rb.velocity = Vector2.zero;
+        foreach(var contact in other.contacts)
+        {
+            if(Mathf.Abs(contact.normal.x) == 1)
+            {
+                return;
+            }
+        }
+
+        //rb.velocity = Vector2.zero;
+        //rb.gravityScale = 0;
         
         if(state == State.Jump)
         {
@@ -284,7 +301,7 @@ public abstract class PlayerController : MonoBehaviour
     virtual public void SlopeHandler()
     {
         Vector2 checkPos = transform.position + Vector3.right * bc.size.x / 2 * (int)direction;
-        RaycastHit2D hit = Physics2D.Raycast(checkPos, Vector2.down, slopeCheckDistance, LayerMask.GetMask("Ground"));
+        hit = Physics2D.Raycast(checkPos, Vector2.down, slopeCheckDistance, LayerMask.GetMask("Ground"));
 
         if(!hit)
         {
@@ -303,6 +320,6 @@ public abstract class PlayerController : MonoBehaviour
             return;
         }
 
-        rb.velocity = Vector2.zero;
+        rb.velocity = Vector2.up * rb.velocity.y;
     }
 }

@@ -94,7 +94,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: e23cfea49c2708e459b733d502d9b7be, type: 3}
   m_Color: {r: 0.49019608, g: 0.85882354, b: 0.56078434, a: 1}
   m_FlipX: 0
@@ -202,7 +202,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: aea7318c4d945f54f9a80903b699641b, type: 3}
   m_Color: {r: 0.48998755, g: 0.8584906, b: 0.5600677, a: 1}
   m_FlipX: 0
@@ -305,9 +305,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.05, y: 0.05}
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.8
 --- !u!1 &4340682580297927371
 GameObject:
   m_ObjectHideFlags: 0
@@ -415,7 +415,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!114 &9085710202748843852
 MonoBehaviour:
@@ -431,7 +431,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   atk: 0
   maxHP: 5
-  speed: 2
+  speed: 4
   jumpForce: 5
   skillAmp: 0
   invincibleDuration: 1

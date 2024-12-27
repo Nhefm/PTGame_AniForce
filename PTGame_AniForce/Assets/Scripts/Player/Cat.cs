@@ -47,7 +47,7 @@ public class Cat : SingleAnimal
         base.ChangeHealth(amount);
     }
 
-    override protected void OnCollisionEnter2D(Collision2D other) {
+    protected void OnCollisionEnter2D(Collision2D other) {
 
         if(state == State.Attack || state == State.Skill)
         {
@@ -65,7 +65,5 @@ public class Cat : SingleAnimal
 
             // oppenent change health(dmgDeal)
         }
-        
-        base.OnCollisionEnter2D(other);
     }
 }

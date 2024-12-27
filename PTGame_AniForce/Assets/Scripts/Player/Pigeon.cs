@@ -21,7 +21,7 @@ public class Pigeon : SingleAnimal
     private bool isFlyingHigh;
     [SerializeField] private float distanceFromGround;
     [SerializeField] private float maxFlyHeight;
-    private RaycastHit2D hit;
+    [SerializeField] private float fallSpeed;
     
     // skill
     [SerializeField] private GameObject pigeons;
@@ -90,24 +90,25 @@ public class Pigeon : SingleAnimal
             return;
         }
         
-        float y = Mathf.Clamp(transform.position.y, hit.point.y + distanceFromGround, maxFlyHeight);
+        float min = hit.point.y + distanceFromGround;
+        float y = transform.position.y;
 
         if(isFlyingHigh)
         {
-            y = Mathf.Clamp(transform.position.y, hit.point.y, maxFlyHeight);
+            y = Mathf.Clamp(y, y, maxFlyHeight);
         }
-        else if(transform.position.y < hit.point.y + distanceFromGround)
+        else if(transform.position.y != min)
         {
-            y = Mathf.Lerp(transform.position.y, hit.point.y + distanceFromGround, Time.deltaTime);
-            
-        }
+            float dy = min - y;
+            y += Mathf.Sign(dy) * Mathf.Min(fallSpeed, Mathf.Abs(dy));
+        }        
 
         transform.position = new Vector3(transform.position.x, y, transform.position.z);
     }
 
     public void ManaChange()
     {
-        Debug.Log(mana + "/" + maxMana);
+        //Debug.Log(mana + "/" + maxMana);
         float deltaMana = Time.deltaTime;
 
         if (isFlyingHigh)
@@ -130,13 +131,10 @@ public class Pigeon : SingleAnimal
 
         if(!isFlyingHigh)
         {
-            rb.gravityScale = 1;
             StartCoroutine(FlyCooldown());
         }
         else
         {
-            rb.gravityScale = 0;
-
             if(flySound)
             {
                 audioSource.PlayOneShot(flySound);
@@ -186,20 +184,5 @@ public class Pigeon : SingleAnimal
     public void DealDamage() // add enemy
     {
         // deal atk damage
-    }
-
-    public override void SlopeHandler()
-    {
-        Vector2 checkPos = transform.position + Vector3.right * bc.size.x / 2 * (int)direction;
-        hit = Physics2D.Raycast(checkPos, Vector2.down, slopeCheckDistance, LayerMask.GetMask("Ground"));
-
-        Debug.DrawRay(hit.point, hit.normal, Color.green);
-
-        if(state != State.Default)
-        {
-            return;
-        }
-
-        rb.velocity = Vector2.zero;
     }
 }

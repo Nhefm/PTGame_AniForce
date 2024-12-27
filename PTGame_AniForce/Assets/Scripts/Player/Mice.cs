@@ -73,6 +73,7 @@ public class Mice : PlayerController
         if(currentHP == 0)
         {
             state = State.Death;
+            rb.gravityScale = 1;
             transform.GetChild(transform.childCount - 1).GetComponent<Animator>().SetBool("isDeath", true);
         }
         else
