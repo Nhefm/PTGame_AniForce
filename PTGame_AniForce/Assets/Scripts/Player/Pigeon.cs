@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -34,7 +35,6 @@ public class Pigeon : SingleAnimal
         storedPigeons = Instantiate(pigeons);
         storedPigeons.SetActive(false);
     }
-
     protected override void OnEnable()
     {
         base.OnEnable();
@@ -42,37 +42,20 @@ public class Pigeon : SingleAnimal
         canFlyHigh = true;
         isFlyingHigh = false;
     }
-
     protected override void Update()
     {
         base.Update();
         ManaChange();
-        Fly();
+        FallHandler();
     }
-
-    public override void Move(InputAction.CallbackContext context)
-    {
-        base.Move(context);
-
-        if(!isFlyingHigh)
-        {
-            return;
-        }
-        
-        if(context.performed)
-        {
-            inputValue = context.ReadValue<Vector2>();
-        }
-    }
-
-    public override void Jump(InputAction.CallbackContext context)
+    public override void OnJump(InputAction.CallbackContext context)
     {
         if(!canFlyHigh)
         {
             return;
         }
 
-        if (state == State.Death)
+        if (currentHP == 0)
         {
             return;
         }
@@ -82,10 +65,65 @@ public class Pigeon : SingleAnimal
             SwitchFlyMode();
         }
     }
-
-    public void Fly()
+    public override void OnAttack(InputAction.CallbackContext context)
     {
-        if(state == State.Death)
+        if(!isFlyingHigh)
+        {
+            return;
+        }
+
+        if(!context.performed)
+        {
+            return;
+        }
+
+        if(!state.CompareState("In Air"))
+        {
+            return;
+        }
+
+        if(!canAttack)
+        {
+            return;
+        }
+
+        state = new AttackState();
+    }
+    public override void OnSkill(InputAction.CallbackContext context)
+    {
+        if(!context.performed)
+        {
+            return;
+        }
+
+        if(!state.CompareState("In Air"))
+        {
+            return;
+        }
+
+        if(!canSkill)
+        {
+            return;
+        }
+
+        state = new SkillState();
+    }
+    public override void Move()
+    {
+        state = new InAirState();
+    }
+    public override void MoveInAir()
+    {
+        rb.velocity = speed * inputValue;
+
+        if(inputValue.x * direction < 0)
+        {
+            Flip();
+        }
+    }
+    public void FallHandler()
+    {
+        if(currentHP == 0)
         {
             return;
         }
@@ -101,11 +139,10 @@ public class Pigeon : SingleAnimal
         {
             float dy = min - y;
             y += Mathf.Sign(dy) * Mathf.Min(fallSpeed, Mathf.Abs(dy));
-        }        
+        }
 
         transform.position = new Vector3(transform.position.x, y, transform.position.z);
     }
-
     public void ManaChange()
     {
         //Debug.Log(mana + "/" + maxMana);
@@ -124,7 +161,6 @@ public class Pigeon : SingleAnimal
             return;
         }
     }
-
     public void SwitchFlyMode()
     {
         isFlyingHigh = !isFlyingHigh;
@@ -141,33 +177,20 @@ public class Pigeon : SingleAnimal
             }
         }
     }
-
     public IEnumerator FlyCooldown()
     {
         canFlyHigh = false;
         yield return new WaitForSeconds(flyCooldown);
         canFlyHigh = true;
     }
-
     public override IEnumerator SkillTimer()
     {
         yield return null;
-
         float startPos = Camera.main.ScreenToWorldPoint(Vector3.zero).x;
         storedPigeons.SetActive(true);
         storedPigeons.transform.position = new Vector2(startPos, maxFlyHeight);
+        state = new InAirState();
     }
-
-    public override void Attack(InputAction.CallbackContext context)
-    {
-        if(!isFlyingHigh)
-        {
-            return;
-        }
-
-        base.Attack(context);
-    }
-
     public override IEnumerator AttackTimer()
     {
         GameObject bullet = ObjectPooling.sharedInstance.GetObject();
@@ -180,7 +203,6 @@ public class Pigeon : SingleAnimal
         
         return base.AttackTimer();
     }
-
     public void DealDamage() // add enemy
     {
         // deal atk damage

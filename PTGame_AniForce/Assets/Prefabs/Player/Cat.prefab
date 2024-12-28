@@ -121,7 +121,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0015012622, y: 0.0015015006}
+  m_Offset: {x: 0.0457218, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -132,7 +132,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.7712935, y: 0.6172396}
+  m_Size: {x: 0.63231486, y: 0.6024995}
   m_EdgeRadius: 0
 --- !u!50 &7124484994229649775
 Rigidbody2D:
@@ -197,10 +197,10 @@ MonoBehaviour:
   atk: 0
   maxHP: 4
   speed: 4
-  jumpForce: 6
+  jumpForce: 8
   skillAmp: 0
   invincibleDuration: 1
-  attackDuration: 0.5
+  attackDuration: 0.7
   skillDuration: 2.5
   attackCooldown: 1
   hurtSound: {fileID: 8300000, guid: 3e7413e674441e349a1619be43149536, type: 3}

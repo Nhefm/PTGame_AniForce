@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -14,6 +15,9 @@ public abstract class PlayerController : MonoBehaviour
     [SerializeField] protected float speed;
     [SerializeField] protected float jumpForce;
     [SerializeField] protected float skillAmp;
+
+    // direction
+    protected float direction;
 
     // durations
     protected bool isInvincible;
@@ -38,12 +42,8 @@ public abstract class PlayerController : MonoBehaviour
     [SerializeField] protected AudioClip attackSound;
     [SerializeField] protected AudioClip skillSound;
 
-    // enums
-    protected State state;
-    protected Direction direction;
-
-    public enum Direction {Left = -1, Right = 1}
-    public enum State {Default, Jump, Attack, Skill, Death}
+    // state
+    protected IState state;
 
     // slope
     [SerializeField] protected float slopeCheckDistance;
@@ -55,54 +55,113 @@ public abstract class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         audioSource = GetComponent<AudioSource>();
         bc = GetComponent<BoxCollider2D>();
-        direction = Direction.Right;
+
         inputValue = Vector2.zero;
         inputActions = new PlayerInputAction();
         inputActions.Player.Enable();
 
-        inputActions.Player.Move.performed += Move;
-        inputActions.Player.Move.canceled += Move;
-        inputActions.Player.Jump.performed += Jump;
-        inputActions.Player.Attack.performed += Attack;
-        inputActions.Player.Skill.performed += Skill;
+        inputActions.Player.Move.performed += OnMovement;
+        inputActions.Player.Move.canceled += OnMovement;
+        inputActions.Player.Jump.performed += OnJump;
+        inputActions.Player.Attack.performed += OnAttack;
+        inputActions.Player.Skill.performed += OnSkill;
     }
     
     virtual protected void Update()
     {
-        if(state == State.Jump) Debug.Log(rb.velocity.y);
+        direction = transform.localScale.x;
         SlopeHandler();
+        PreventSliding();
     }
 
     protected void FixedUpdate()
     {
-        Move();
+        state.Update(this);
     }
 
     virtual protected void OnEnable()
     {
-        if(state == State.Death)
-        {
-            return;
-        }
-
         currentHP = maxHP;
-        state = State.Default;
+        state = new InAirState();
         canAttack = true;
         canSkill = true;
         isInvincible = false;
 
-        if(inputActions != null)
-        {
-            inputActions.Player.Enable();
-        }
+        inputActions?.Player.Enable();
     }
 
     virtual protected void OnDisable() {
 
-        if(inputActions != null)
+        inputActions?.Player.Disable();
+    }
+
+    virtual public void OnMovement(InputAction.CallbackContext context)
+    {
+        if(context.performed)
         {
-            inputActions.Player.Disable();
+            inputValue = context.ReadValue<Vector2>();
         }
+
+        if(context.canceled)
+        {
+            inputValue = Vector2.zero;
+        }
+    }
+
+    virtual public void OnJump(InputAction.CallbackContext context)
+    {
+        if(!context.performed)
+        {
+            return;
+        }
+
+        if(!state.CompareState("Default"))
+        {
+            return;
+        }
+
+        state = new InAirState();
+        rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+    }
+
+    virtual public void OnAttack(InputAction.CallbackContext context)
+    {
+        if(!context.performed)
+        {
+            return;
+        }
+
+        if(!state.CompareState("Default"))
+        {
+            return;
+        }
+
+        if(!canAttack)
+        {
+            return;
+        }
+
+        state = new AttackState();
+    }
+
+    virtual public void OnSkill(InputAction.CallbackContext context)
+    {
+        if(!context.performed)
+        {
+            return;
+        }
+
+        if(!state.CompareState("Default"))
+        {
+            return;
+        }
+
+        if(!canSkill)
+        {
+            return;
+        }
+
+        state = new SkillState();
     }
 
     virtual public void ChangeHealth(float amount)
@@ -124,37 +183,41 @@ public abstract class PlayerController : MonoBehaviour
 
         if(amount < 0)
         {
-            StartCoroutine(InvincibleTimer());
+            state = new HurtState();
         }
         
         //UIHealthBar.instance.SetValue((float)currentHealth / maxHealth);
     }
 
-    abstract public IEnumerator InvincibleTimer();
-
-    virtual public void Move(InputAction.CallbackContext context)
+    public void Hurt()
     {
-        if(context.performed)
-        {
-            inputValue = Vector2.right * context.ReadValue<Vector2>();
-        }
-
-        if(context.canceled)
-        {
-            inputValue = Vector2.zero;
-        }
+        StartCoroutine(InvincibleTimer());
     }
+
+    abstract public IEnumerator InvincibleTimer();
 
     virtual public void Move()
     {
-        if(state != State.Default && state != State.Jump)
+        if(hit.normal.normalized != Vector2.up)
         {
-            return;
+            rb.velocity = speed * inputValue.x * -Vector2.Perpendicular(hit.normal.normalized);
+        }
+        else
+        {
+            rb.velocity = new Vector2(speed * inputValue.x, 0);
         }
 
-        rb.MovePosition(transform.position + speed * Time.deltaTime * (Vector3)inputValue);
+        if(inputValue.x * direction < 0)
+        {
+            Flip();
+        }
+    }
 
-        if(inputValue.x * (int)direction < 0)
+    virtual public void MoveInAir()
+    {
+        rb.velocity = new Vector2(speed * inputValue.x, rb.velocity.y);
+
+        if(inputValue.x * direction < 0)
         {
             Flip();
         }
@@ -162,38 +225,11 @@ public abstract class PlayerController : MonoBehaviour
 
     public void Flip()
     {
-        direction = (Direction)(-(int)direction);
-        transform.localScale = new Vector2(transform.localScale.x * -1, transform.localScale.y);
+        transform.localScale = new Vector2(direction * -1, transform.localScale.y);
     }
 
-    virtual public void Jump(InputAction.CallbackContext context)
+    public void Attack()
     {
-        if(!context.performed)
-        {
-            return;
-        }
-
-        if(state != State.Default)
-        {
-            return;
-        }
-
-        rb.gravityScale = 1;
-        rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-        state = State.Jump;
-    }
-    virtual public void Attack(InputAction.CallbackContext context)
-    {
-        if(!context.performed)
-        {
-            return;
-        }
-
-        if(state != State.Default)
-        {
-            return;
-        }
-
         if(!canAttack)
         {
             return;
@@ -205,8 +241,6 @@ public abstract class PlayerController : MonoBehaviour
 
     virtual public IEnumerator AttackTimer()
     {
-        state = State.Attack;
-
         if(attackSound)
         {
             audioSource.PlayOneShot(attackSound);
@@ -214,10 +248,10 @@ public abstract class PlayerController : MonoBehaviour
 
         yield return new WaitForSeconds(attackDuration);
 
-        if(state == State.Attack)
+        if(state.CompareState("Attack"))
         {
-            state = State.Default;
-        } 
+            state = StateTransition();
+        }
     }
 
     virtual public IEnumerator AttackCooldown()
@@ -227,28 +261,18 @@ public abstract class PlayerController : MonoBehaviour
         canAttack = true;
     }
 
-    virtual public void Skill(InputAction.CallbackContext context)
+    public void Skill()
     {
-        if(!context.performed)
-        {
-            return;
-        }
-
-        if(state != State.Default)
-        {
-            return;
-        }
-
         if(!canSkill)
         {
             return;
         }
 
-        if(skillSound)
+        if (skillSound && !audioSource.isPlaying)
         {
             audioSource.PlayOneShot(skillSound);
         }
-        
+
         StartCoroutine(SkillTimer());
         StartCoroutine(SkillCooldown());
     }
@@ -258,13 +282,12 @@ public abstract class PlayerController : MonoBehaviour
     virtual public IEnumerator SkillCooldown()
     {
         canSkill = false;
-        yield return null;
-        // yield return new WaitForSeconds(skillCooldown);
+        yield return new WaitForSeconds(skillDuration);
         canSkill = true;
     }
 
-    virtual protected void OnCollisionStay2D(Collision2D other) {
-
+    virtual protected void OnCollisionEnter2D(Collision2D other)
+    {
         if(!other.collider.CompareTag("Ground"))
         {
             return;
@@ -278,48 +301,91 @@ public abstract class PlayerController : MonoBehaviour
             }
         }
 
-        //rb.velocity = Vector2.zero;
-        //rb.gravityScale = 0;
-        
-        if(state == State.Jump)
+        if(state.CompareState("In Air"))
         {
-            state = State.Default;
+            state = new DefaultState();
         }
-        else if(state == State.Death)
+    }
+
+    protected void OnCollisionStay2D(Collision2D other)
+    {
+        if(!other.collider.CompareTag("Ground"))
+        {
+            return;
+        }
+
+        if(currentHP == 0)
         {
             rb.simulated = false;
         }
     }
 
-    public float getCurrentHealthPercentage()
+    protected void OnCollisionExit2D(Collision2D other)
     {
-        if(maxHP == 0) return 1;
+        if(!other.collider.CompareTag("Ground"))
+        {
+            return;
+        }
+
+        if(!state.CompareState("Default"))
+        {
+            return;
+        }
         
-        return currentHP / maxHP;
+        state = new InAirState();
     }
 
     virtual public void SlopeHandler()
     {
-        Vector2 checkPos = transform.position + Vector3.right * bc.size.x / 2 * (int)direction;
-        hit = Physics2D.Raycast(checkPos, Vector2.down, slopeCheckDistance, LayerMask.GetMask("Ground"));
+        RaycastHit2D temp = Physics2D.Raycast(bc.bounds.center, Vector2.down, slopeCheckDistance, LayerMask.GetMask("Ground"));
 
-        if(!hit)
+        if(temp)
         {
-            return;
+            hit = temp;
+        }
+    }
+
+    public IState StateTransition()
+    {
+        IState transitionState = new InAirState();
+        
+        Vector2 checkPos = transform.position + Vector3.right * bc.size.x / 2 * direction;
+        RaycastHit2D temp = Physics2D.Raycast(checkPos, Vector2.down, slopeCheckDistance, LayerMask.GetMask("Ground"));
+        
+        float distance = Vector2.Distance(temp.point, new Vector2(bc.bounds.max.x, bc.bounds.min.y));
+        float boundMinY = bc.bounds.min.y - Physics2D.defaultContactOffset;
+        float hitPointY = Mathf.Round(temp.point.y * 10) / 10;
+        float sin = Mathf.Sin(Mathf.Deg2Rad * Vector2.Angle(temp.normal, Vector2.up));
+        float sign = Mathf.Sign(hitPointY - boundMinY);
+        boundMinY = Mathf.Round((boundMinY + distance * sin * sign) * 10) / 10;
+
+        if(hitPointY == boundMinY)
+        {
+            transitionState =  new DefaultState();
         }
 
-        Debug.DrawRay(hit.point, hit.normal, Color.green);
+        return transitionState;
+    }
 
-        if(Vector2.Angle(hit.normal, Vector2.up) == 0)
+    private void PreventSliding()
+    {
+        float slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
+        // Check if on a slope and stationary
+        if (slopeAngle > 0 && inputValue.x == 0 && state.CompareState("Default"))
         {
-            return;
+            rb.velocity = Vector2.zero;
+            rb.gravityScale = 0;
         }
-
-        if(state != State.Default)
+        else
         {
-            return;
+            rb.gravityScale = 1;
         }
+    }
 
-        rb.velocity = Vector2.up * rb.velocity.y;
+    public float GetCurrentHealthPercentage()
+    {
+        if(maxHP == 0) return 1;
+        
+        return currentHP / maxHP;
     }
 }

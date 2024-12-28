@@ -432,7 +432,7 @@ MonoBehaviour:
   atk: 0
   maxHP: 5
   speed: 4
-  jumpForce: 5
+  jumpForce: 8
   skillAmp: 0
   invincibleDuration: 1
   attackDuration: 0

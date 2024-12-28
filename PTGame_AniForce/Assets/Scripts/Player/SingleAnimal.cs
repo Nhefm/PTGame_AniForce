@@ -19,7 +19,16 @@ public abstract class SingleAnimal : PlayerController
     {
         base.Update();
         animator.SetFloat("speed", Mathf.Abs(inputValue.x));
-        animator.SetFloat("yVelocity", rb.velocity.y);
+
+        if(hit.normal != Vector2.up && state.CompareState("Default"))
+        {
+            animator.SetFloat("yVelocity", 0);
+        }
+        else
+        {
+            animator.SetFloat("yVelocity", rb.velocity.y);
+        }
+        
     }
 
     public override IEnumerator InvincibleTimer()
@@ -30,12 +39,11 @@ public abstract class SingleAnimal : PlayerController
         if(currentHP == 0)
         {
             animator.SetBool("isDeath", true);
-            rb.gravityScale = 1;
-            state = State.Death;
         }
         else
         {
             yield return new WaitForSeconds(invincibleDuration);
+            state = StateTransition();
             isInvincible = false;
         }
 

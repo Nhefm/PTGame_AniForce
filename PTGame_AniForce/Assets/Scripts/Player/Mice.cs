@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -45,6 +46,13 @@ public class Mice : PlayerController
         ResizeCollider(amountToPool);
     }
 
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        ResizeCollider(amountToPool);
+        atk = maxAtk;
+    }
+
     // Update is called once per frame
     override protected void Update()
     {
@@ -57,7 +65,7 @@ public class Mice : PlayerController
             childAnimator.SetFloat("yVelocity", rb.velocity.y);
         }
 
-        Attack();
+        PassiveAttack();
     }
 
     public override IEnumerator InvincibleTimer()
@@ -72,8 +80,6 @@ public class Mice : PlayerController
 
         if(currentHP == 0)
         {
-            state = State.Death;
-            rb.gravityScale = 1;
             transform.GetChild(transform.childCount - 1).GetComponent<Animator>().SetBool("isDeath", true);
         }
         else
@@ -82,18 +88,23 @@ public class Mice : PlayerController
             isInvincible = false;
         }
 
-        ResizeCollider((int)Mathf.Ceil(getCurrentHealthPercentage() * amountToPool));
+        ResizeCollider((int)Mathf.Ceil(GetCurrentHealthPercentage() * amountToPool));
         yield return null;
     }
 
-    public void Attack()
+    public override void OnAttack(InputAction.CallbackContext context)
+    {
+
+    }
+
+    public void PassiveAttack()
     {
         if(!canAttack)
         {
             return;
         }
 
-        if(state != State.Default)
+        if(currentHP == 0)
         {
             return;
         }
@@ -104,13 +115,16 @@ public class Mice : PlayerController
 
     public override IEnumerator SkillTimer()
     {
-        state = State.Skill;
         transform.GetChild(1).GetComponent<Animator>().SetTrigger("Heal");
         currentHP = Mathf.Clamp(currentHP + maxHP / amountToPool, 0, maxHP);
 
         yield return new WaitForSeconds(skillDuration);
-        ResizeCollider((int)Mathf.Ceil(getCurrentHealthPercentage() * amountToPool));
-        state = State.Default;
+        ResizeCollider((int)Mathf.Ceil(GetCurrentHealthPercentage() * amountToPool));
+
+        if(!state.CompareState("Hurt"))
+        {
+            state = StateTransition();
+        }
     }
 
     public void ResizeCollider(int mouseNumber)
@@ -120,6 +134,11 @@ public class Mice : PlayerController
             mouseNumber = 1;
         }
         
+        if(transform.childCount < mouseNumber)
+        {
+            return;
+        }
+
         for(int i = transform.childCount - amountToPool; i < transform.childCount - mouseNumber; i++)
         {
             transform.GetChild(i).gameObject.SetActive(false);
@@ -138,7 +157,7 @@ public class Mice : PlayerController
 
     public override void ChangeHealth(float amount)
     {
-        if(amount < 0 && state == State.Skill)
+        if(amount < 0)// && state == State.Skill)
         {
             return;
         }

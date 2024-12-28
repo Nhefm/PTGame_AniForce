@@ -27,7 +27,6 @@ public class SwappingController : MonoBehaviour
     private GameObject swapVFXOnScreen;
     [SerializeField] private AudioClip swapSFX;
     private AudioSource audioSource;
-    [SerializeField] private float fixedY;
 
     // cinemachine
     [SerializeField] private GameObject cameraObject;

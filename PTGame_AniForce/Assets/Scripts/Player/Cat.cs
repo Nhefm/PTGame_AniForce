@@ -9,15 +9,14 @@ public class Cat : SingleAnimal
 
     public override IEnumerator AttackTimer()
     {
-        rb.AddForce(new Vector2(attackDashForce.x * (int)direction, attackDashForce.y), ForceMode2D.Impulse);
+        rb.AddForce(new Vector2(attackDashForce.x * direction, attackDashForce.y), ForceMode2D.Impulse);
         return base.AttackTimer();
     }
 
     public override IEnumerator SkillTimer()
     {
-        state = State.Skill;
         rb.velocity = Vector2.zero;
-        rb.AddForce(new Vector2(skillDashForce.x * (int)direction, skillDashForce.y), ForceMode2D.Impulse);
+        rb.AddForce(new Vector2(skillDashForce.x * direction, skillDashForce.y), ForceMode2D.Impulse);
         yield return new WaitForSeconds(skillDuration / 4);
 
         rb.velocity = Vector2.zero;
@@ -29,17 +28,21 @@ public class Cat : SingleAnimal
             audioSource.PlayOneShot(skillSound);
         }
         
-        rb.AddForce(new Vector2(skillDashForce.x * (int)direction, skillDashForce.y), ForceMode2D.Impulse);
+        rb.AddForce(new Vector2(skillDashForce.x * direction, skillDashForce.y), ForceMode2D.Impulse);
         yield return new WaitForSeconds(skillDuration / 4);
         
         rb.velocity = Vector2.zero;
         Flip();
-        state = State.Default;
+
+        if(state.CompareState("Skill"))
+        {
+            state = StateTransition();
+        }
     }
 
     public override void ChangeHealth(float amount)
     {
-        if(amount < 0 && state == State.Skill)
+        if(amount < 0 && state.CompareState("Skill"))
         {
             return;
         }
@@ -47,23 +50,25 @@ public class Cat : SingleAnimal
         base.ChangeHealth(amount);
     }
 
-    protected void OnCollisionEnter2D(Collision2D other) {
+    override protected void OnCollisionEnter2D(Collision2D other) {
 
-        if(state == State.Attack || state == State.Skill)
+        //if(state == State.Attack || state == State.Skill)
         {
             // get opponent component   
             float dmgDeal = 0;
 
-            if(state == State.Attack)
+            //if(state == State.Attack)
             {
                 dmgDeal = atk;
             }
-            else
+            //else
             {
                 dmgDeal = atk * skillAmp;
             }
 
             // oppenent change health(dmgDeal)
         }
+
+        base.OnCollisionEnter2D(other);
     }
 }
