@@ -53,7 +53,7 @@ public class MainMenuController : MonoBehaviour
     private void OnNewGameClicked()
     {
         Debug.Log("New Game button clicked");
-        // SceneManager.LoadScene("NewGameScene");
+        SceneManager.LoadScene("map1");
     }
 
     private void OnHowToPlayClicked()

@@ -62,7 +62,7 @@ public class Mice : PlayerController
         {
             Animator childAnimator = transform.GetChild(i).GetComponent<Animator>();
             childAnimator.SetFloat("speed", Mathf.Abs(inputValue.x));
-            childAnimator.SetFloat("yVelocity", rb.velocity.y);
+            childAnimator.SetFloat("yVelocity", rb.linearVelocity.y);
         }
 
         PassiveAttack();

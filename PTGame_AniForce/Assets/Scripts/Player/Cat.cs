@@ -15,11 +15,11 @@ public class Cat : SingleAnimal
 
     public override IEnumerator SkillTimer()
     {
-        rb.velocity = Vector2.zero;
+        rb.linearVelocity = Vector2.zero;
         rb.AddForce(new Vector2(skillDashForce.x * direction, skillDashForce.y), ForceMode2D.Impulse);
         yield return new WaitForSeconds(skillDuration / 4);
 
-        rb.velocity = Vector2.zero;
+        rb.linearVelocity = Vector2.zero;
         Flip();
         yield return new WaitForSeconds(skillDuration / 4);
 
@@ -31,7 +31,7 @@ public class Cat : SingleAnimal
         rb.AddForce(new Vector2(skillDashForce.x * direction, skillDashForce.y), ForceMode2D.Impulse);
         yield return new WaitForSeconds(skillDuration / 4);
         
-        rb.velocity = Vector2.zero;
+        rb.linearVelocity = Vector2.zero;
         Flip();
 
         if(state.CompareState("Skill"))

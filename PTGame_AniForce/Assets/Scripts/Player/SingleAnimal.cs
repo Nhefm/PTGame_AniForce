@@ -26,7 +26,7 @@ public abstract class SingleAnimal : PlayerController
         }
         else
         {
-            animator.SetFloat("yVelocity", rb.velocity.y);
+            animator.SetFloat("yVelocity", rb.linearVelocity.y);
         }
         
     }

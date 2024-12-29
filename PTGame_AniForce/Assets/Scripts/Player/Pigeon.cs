@@ -114,7 +114,7 @@ public class Pigeon : SingleAnimal
     }
     public override void MoveInAir()
     {
-        rb.velocity = speed * inputValue;
+        rb.linearVelocity = speed * inputValue;
 
         if(inputValue.x * direction < 0)
         {

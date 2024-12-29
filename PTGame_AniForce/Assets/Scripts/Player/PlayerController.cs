@@ -198,13 +198,15 @@ public abstract class PlayerController : MonoBehaviour
 
     virtual public void Move()
     {
+        Debug.Log(inputValue.x);
+        
         if(hit.normal.normalized != Vector2.up)
         {
-            rb.velocity = speed * inputValue.x * -Vector2.Perpendicular(hit.normal.normalized);
+            rb.linearVelocity = speed * inputValue.x * -Vector2.Perpendicular(hit.normal.normalized);
         }
         else
         {
-            rb.velocity = new Vector2(speed * inputValue.x, 0);
+            rb.linearVelocity = new Vector2(speed * inputValue.x, 0);
         }
 
         if(inputValue.x * direction < 0)
@@ -215,7 +217,7 @@ public abstract class PlayerController : MonoBehaviour
 
     virtual public void MoveInAir()
     {
-        rb.velocity = new Vector2(speed * inputValue.x, rb.velocity.y);
+        rb.linearVelocity = new Vector2(speed * inputValue.x, rb.linearVelocity.y);
 
         if(inputValue.x * direction < 0)
         {
@@ -373,7 +375,7 @@ public abstract class PlayerController : MonoBehaviour
         // Check if on a slope and stationary
         if (slopeAngle > 0 && inputValue.x == 0 && state.CompareState("Default"))
         {
-            rb.velocity = Vector2.zero;
+            rb.linearVelocity = Vector2.zero;
             rb.gravityScale = 0;
         }
         else
