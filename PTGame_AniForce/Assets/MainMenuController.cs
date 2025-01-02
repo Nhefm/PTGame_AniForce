@@ -2,46 +2,62 @@
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-// Only needed if you want to stop Play Mode in the Editor
+// Nếu bạn muốn dừng Play Mode trong Unity Editor
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
 public class MainMenuController : MonoBehaviour
 {
-    private Button loadBtn;
-    private Button newBtn;
-    private Button howBtn;
-    private Button settingBtn;
-    private Button aboutBtn;
-    private Button quitBtn;
+    [Header("Main Menu Buttons")]
+    [SerializeField] private Button loadBtn;
+    [SerializeField] private Button newBtn;
+    [SerializeField] private Button howBtn;
+    [SerializeField] private Button settingBtn;
+    [SerializeField] private Button aboutBtn;
+    [SerializeField] private Button quitBtn;
+
+    [Header("About Us Panel")]
+    [SerializeField] private GameObject aboutUsPanel;
+    [SerializeField] private Button aboutExitBtn;
+    
+    [Header("How to Play Panel")]
+    [SerializeField] private GameObject howPanel;
+    [SerializeField] private Button howExitBtn;
+
+
+    [Header("Main Menu Panel")]
+    [SerializeField] private GameObject mainMenuPanel;
 
     private void Start()
     {
-        // Find each Button by name in the scene hierarchy.
-        // Make sure the names match exactly what you see in the Hierarchy.
-        var loadBtnGO = GameObject.Find("MainMenu/LoadBtn");
-        var newBtnGO = GameObject.Find("MainMenu/NewBtn");
-        var howBtnGO = GameObject.Find("MainMenu/HowBtn");
-        var settingBtnGO = GameObject.Find("MainMenu/SettingBtn");
-        var aboutBtnGO = GameObject.Find("MainMenu/AboutBtn");
-        var quitBtnGO = GameObject.Find("MainMenu/QuitBtn");
-
-        // Get the Button component from each game object
-        if (loadBtnGO != null)    loadBtn = loadBtnGO.GetComponent<Button>();
-        if (newBtnGO != null)     newBtn = newBtnGO.GetComponent<Button>();
-        if (howBtnGO != null)     howBtn = howBtnGO.GetComponent<Button>();
-        if (settingBtnGO != null) settingBtn = settingBtnGO.GetComponent<Button>();
-        if (aboutBtnGO != null)   aboutBtn = aboutBtnGO.GetComponent<Button>();
-        if (quitBtnGO != null)    quitBtn = quitBtnGO.GetComponent<Button>();
-
-        // Add listeners
+        // Kiểm tra và add listener cho từng button
         if (loadBtn)    loadBtn.onClick.AddListener(OnLoadGameClicked);
         if (newBtn)     newBtn.onClick.AddListener(OnNewGameClicked);
         if (howBtn)     howBtn.onClick.AddListener(OnHowToPlayClicked);
         if (settingBtn) settingBtn.onClick.AddListener(OnSettingsClicked);
         if (aboutBtn)   aboutBtn.onClick.AddListener(OnAboutUsClicked);
         if (quitBtn)    quitBtn.onClick.AddListener(OnQuitGameClicked);
+
+        if (aboutExitBtn) aboutExitBtn.onClick.AddListener(OnAboutUsExitBtnClicked);
+        if (howExitBtn) howExitBtn.onClick.AddListener(OnHowToPlayExitBtnClicked);
+
+        // Thiết lập trạng thái hiển thị ban đầu
+        if (aboutUsPanel)   aboutUsPanel.SetActive(false);
+        if (howPanel)    howPanel.SetActive(false);
+        if (mainMenuPanel)  mainMenuPanel.SetActive(true);
+    }
+
+    private void OnHowToPlayExitBtnClicked()
+    {
+        if (howPanel) howPanel.SetActive(false);
+        if (mainMenuPanel) mainMenuPanel.SetActive(true);
+    }
+
+    private void OnAboutUsExitBtnClicked()
+    {
+        if (aboutUsPanel)   aboutUsPanel.SetActive(false);
+        if (mainMenuPanel)  mainMenuPanel.SetActive(true);
     }
 
     private void OnLoadGameClicked()
@@ -59,31 +75,31 @@ public class MainMenuController : MonoBehaviour
     private void OnHowToPlayClicked()
     {
         Debug.Log("How To Play button clicked");
-        // Show how-to-play UI or load a scene, etc.
+        if (howPanel) howPanel.SetActive(true);
+        if (mainMenuPanel) mainMenuPanel.SetActive(false);
     }
 
     private void OnSettingsClicked()
     {
         Debug.Log("Settings button clicked");
-        // Show a settings menu or scene.
+        // Hiển thị menu cài đặt hoặc load scene cài đặt.
     }
 
     private void OnAboutUsClicked()
     {
         Debug.Log("About Us button clicked");
-        // Show an About Us popup or load a scene, etc.
+        if (mainMenuPanel)  mainMenuPanel.SetActive(false);
+        if (aboutUsPanel)   aboutUsPanel.SetActive(true);
     }
 
     private void OnQuitGameClicked()
     {
         Debug.Log("Quit Game button clicked.");
 
-        // If running in the Unity Editor, stop Play mode.
-        // Otherwise, quit the application.
-        #if UNITY_EDITOR
-            EditorApplication.isPlaying = false;
-        #else
-            Application.Quit();
-        #endif
+    #if UNITY_EDITOR
+        EditorApplication.isPlaying = false;  // Dừng Play mode trong Editor
+    #else
+        Application.Quit();                  // Thoát hẳn ứng dụng khi build
+    #endif
     }
 }
