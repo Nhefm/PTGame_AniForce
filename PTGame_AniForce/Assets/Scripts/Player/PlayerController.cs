@@ -339,25 +339,39 @@ public abstract class PlayerController : MonoBehaviour
 
     virtual public void SlopeHandler()
     {
-        RaycastHit2D temp = Physics2D.Raycast(bc.bounds.center, Vector2.down, slopeCheckDistance, LayerMask.GetMask("Ground"));
+        List<Vector2> listOrigins = new(3)
+        {
+            bc.bounds.center,
+            new Vector2(bc.bounds.min.x, bc.bounds.center.y),
+            new Vector2(bc.bounds.max.x, bc.bounds.center.y)
+        };
+        
+        RaycastHit2D temp = Physics2D.Raycast(listOrigins[0], Vector2.down, slopeCheckDistance, LayerMask.GetMask("Ground"));
 
         if(temp)
         {
             hit = temp;
+        }
+
+        foreach(var origin in listOrigins)
+        {
+            temp = Physics2D.Raycast(origin, Vector2.down, slopeCheckDistance, LayerMask.GetMask("Ground"));
+
+            if(temp && temp.normal != Vector2.up)
+            {
+                hit = temp;
+            }
         }
     }
 
     public IState StateTransition()
     {
         IState transitionState = new InAirState();
-        
-        Vector2 checkPos = transform.position + Vector3.right * bc.size.x / 2 * direction;
-        RaycastHit2D temp = Physics2D.Raycast(checkPos, Vector2.down, slopeCheckDistance, LayerMask.GetMask("Ground"));
-        
-        float distance = Vector2.Distance(temp.point, new Vector2(bc.bounds.max.x, bc.bounds.min.y));
+
+        float distance = Vector2.Distance(hit.point, new Vector2(bc.bounds.max.x, bc.bounds.min.y));
         float boundMinY = bc.bounds.min.y - Physics2D.defaultContactOffset;
-        float hitPointY = Mathf.Round(temp.point.y * 10) / 10;
-        float sin = Mathf.Sin(Mathf.Deg2Rad * Vector2.Angle(temp.normal, Vector2.up));
+        float hitPointY = Mathf.Round(hit.point.y * 10) / 10;
+        float sin = Mathf.Sin(Mathf.Deg2Rad * Vector2.Angle(hit.normal, Vector2.up));
         float sign = Mathf.Sign(hitPointY - boundMinY);
         boundMinY = Mathf.Round((boundMinY + distance * sin * sign) * 10) / 10;
 
