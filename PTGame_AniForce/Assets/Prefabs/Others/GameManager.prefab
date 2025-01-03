@@ -55,7 +55,7 @@ MonoBehaviour:
   spawnPosition: {x: 1, y: 1}
   swapVFX: {fileID: 2083971547949903195, guid: 41215d893deda954dbee957341387ff6, type: 3}
   swapSFX: {fileID: 8300000, guid: a868277aec30b1548b63d60d3706a285, type: 3}
-  fixedY: 1
+  cameraObject: {fileID: 0}
 --- !u!114 &3223466156659097594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81,6 +81,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 0.1
   m_Pitch: 1
