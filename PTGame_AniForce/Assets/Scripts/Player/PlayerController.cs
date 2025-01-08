@@ -198,8 +198,6 @@ public abstract class PlayerController : MonoBehaviour
 
     virtual public void Move()
     {
-        Debug.Log(inputValue.x);
-        
         if(hit.normal.normalized != Vector2.up)
         {
             rb.linearVelocity = speed * inputValue.x * -Vector2.Perpendicular(hit.normal.normalized);
