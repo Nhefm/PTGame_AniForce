@@ -69,6 +69,7 @@ public abstract class PlayerController : MonoBehaviour
     
     virtual protected void Update()
     {
+        Debug.Log(state);
         direction = transform.localScale.x;
         SlopeHandler();
         PreventSliding();
@@ -355,7 +356,7 @@ public abstract class PlayerController : MonoBehaviour
         {
             temp = Physics2D.Raycast(origin, Vector2.down, slopeCheckDistance, LayerMask.GetMask("Ground"));
 
-            if(temp && temp.normal != Vector2.up)
+            if(temp.point.y > hit.point.y)
             {
                 hit = temp;
             }
@@ -381,7 +382,7 @@ public abstract class PlayerController : MonoBehaviour
         return transitionState;
     }
 
-    private void PreventSliding()
+    public void PreventSliding()
     {
         float slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
         // Check if on a slope and stationary
