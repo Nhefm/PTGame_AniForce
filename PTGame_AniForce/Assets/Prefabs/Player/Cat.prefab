@@ -212,8 +212,7 @@ MonoBehaviour:
   attackSound: {fileID: 8300000, guid: c9a5d2429396fb648a6b81644af80a7e, type: 3}
   skillSound: {fileID: 8300000, guid: 20c7fb622b11dd3429813e805fe42f6b, type: 3}
   slopeCheckDistance: 10
-  boundaryTopLeft: {x: -10, y: 0}
-  boundaryBottomRight: {x: 0, y: 0}
+  swappingController: {fileID: 6549606002981228316, guid: 6ac7f4ef7c26b0347ba040aa4c9a7f65, type: 3}
   skillDashForce: {x: 4, y: 3}
   attackDashForce: {x: 4, y: 3}
 --- !u!82 &8199700828765616435

@@ -19,9 +19,6 @@ public class SwappingController : MonoBehaviour
     private bool canRandom;
     [SerializeField] float randomCooldown;
 
-    // first spawn position
-    [SerializeField] Vector2 spawnPosition;
-
     // swap fx
     [SerializeField] private GameObject swapVFX;
     private GameObject swapVFXOnScreen;
@@ -31,6 +28,12 @@ public class SwappingController : MonoBehaviour
     // cinemachine
     [SerializeField] private GameObject cameraObject;
     private CinemachineVirtualCamera cinemachine;
+
+    // checkpoint
+    [SerializeField] Vector2 spawnPosition;
+    static public Vector2 CurrentSpawnPosition {get; set;}
+    [SerializeField] private int maxLife;
+    static private int currentLife;
 
     private void Awake() {
         instance = this;
@@ -42,6 +45,8 @@ public class SwappingController : MonoBehaviour
     {
         choice = 0;
         canRandom = true;
+        CurrentSpawnPosition = spawnPosition;
+        currentLife = maxLife;
         swapVFXOnScreen = Instantiate(swapVFX);
         audioSource = GetComponent<AudioSource>();
         animalsToPool = new List<GameObject>();
@@ -59,14 +64,13 @@ public class SwappingController : MonoBehaviour
             animalsToPool.Add(temp);
         }
 
-        animalsToPool[choice].transform.position = spawnPosition;
-
         GetRandomAnimal();
     }
 
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(currentLife);
         if(Input.GetKeyDown(KeyCode.F))
         {
             GetRandomAnimal();
@@ -88,7 +92,7 @@ public class SwappingController : MonoBehaviour
         }
 
         animalsToPool[choice].SetActive(true);
-        animalsToPool[choice].transform.position = animalsToPool[previousChoice].transform.position;
+        animalsToPool[choice].transform.position = CurrentSpawnPosition;
         animalsToPool[previousChoice].SetActive(false);
 
         cinemachine.m_Follow = animalsToPool[choice].transform;
@@ -97,7 +101,7 @@ public class SwappingController : MonoBehaviour
         swapVFXOnScreen.GetComponent<Animator>().SetTrigger("Swap");
         audioSource.PlayOneShot(swapSFX);
 
-        StartCoroutine(RandomCooldown());
+        // StartCoroutine(RandomCooldown());
     }
 
     public IEnumerator RandomCooldown()
@@ -105,5 +109,17 @@ public class SwappingController : MonoBehaviour
         canRandom = false;
         yield return new WaitForSeconds(randomCooldown);
         canRandom = true;
+    }
+
+    public void Swap()
+    {
+        if(currentLife == 0)
+        {
+            // game over
+            return;
+        }
+
+        --currentLife;
+        GetRandomAnimal();
     }
 }

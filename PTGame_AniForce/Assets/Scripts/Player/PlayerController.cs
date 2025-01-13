@@ -49,6 +49,9 @@ public abstract class PlayerController : MonoBehaviour
     [SerializeField] protected float slopeCheckDistance;
     protected RaycastHit2D hit;
 
+    // swapping controller
+    [SerializeField] protected SwappingController swappingController;
+
     // Start is called before the first frame update
     virtual protected void Start()
     {
@@ -73,6 +76,7 @@ public abstract class PlayerController : MonoBehaviour
         direction = transform.localScale.x;
         SlopeHandler();
         PreventSliding();
+        SetCheckpoint();
     }
 
     protected void FixedUpdate()
@@ -394,6 +398,24 @@ public abstract class PlayerController : MonoBehaviour
         else
         {
             rb.gravityScale = 1;
+        }
+    }
+
+    public void SetCheckpoint()
+    {
+        RaycastHit2D obj = Physics2D.Raycast(bc.bounds.center, Vector2.down, slopeCheckDistance, LayerMask.GetMask("Checkpoint"));
+        
+        if(!obj)
+        {
+            return;
+        }
+
+        Checkpoint checkpoint = obj.collider.GetComponent<Checkpoint>();
+
+        if(checkpoint.SetCheckpoint())
+        {
+            SwappingController.CurrentSpawnPosition = obj.point;
+            swappingController.Swap();
         }
     }
 
