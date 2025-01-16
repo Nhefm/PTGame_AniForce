@@ -240,10 +240,10 @@ MonoBehaviour:
       - m_Target: {fileID: 9085710202748843852}
         m_TargetAssemblyTypeName: Mice, Assembly-CSharp
         m_MethodName: DealAttackDamage
-        m_Mode: 1
+        m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgumentAssemblyTypeName: Enemy, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

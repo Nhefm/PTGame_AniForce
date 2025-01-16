@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Cat : SingleAnimal
@@ -51,24 +52,21 @@ public class Cat : SingleAnimal
     }
 
     override protected void OnCollisionEnter2D(Collision2D other) {
+        
+        var enemy = other.transform.GetComponent<Enemy>();
 
-        //if(state == State.Attack || state == State.Skill)
+        if(enemy)
         {
-            // get opponent component   
-            float dmgDeal = 0;
-
-            //if(state == State.Attack)
+            if(state.CompareState("Attack"))
             {
-                dmgDeal = atk;
+                enemy.TakeDamage(atk);
             }
-            //else
+            else if (state.CompareState("Skill"))
             {
-                dmgDeal = atk * skillAmp;
+                enemy.TakeDamage(atk * skillAmp);
             }
-
-            // oppenent change health(dmgDeal)
         }
-
+        
         base.OnCollisionEnter2D(other);
     }
 }

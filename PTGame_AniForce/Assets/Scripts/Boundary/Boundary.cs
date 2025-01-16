@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Boundary : MonoBehaviour
@@ -6,8 +7,8 @@ public class Boundary : MonoBehaviour
     
     private void OnTriggerExit2D(Collider2D other) {
         var player = other.GetComponent<PlayerController>();
-        Debug.Log("Exit");
-        if(player)
+        
+        if(player && player.gameObject.activeInHierarchy)
         {
             swappingController.Swap();
         }

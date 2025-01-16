@@ -26,17 +26,18 @@ public class Dog : SingleAnimal
 
     override protected void OnCollisionEnter2D(Collision2D other) {
 
-        //if(state == State.Attack)
+        var enemy = other.transform.GetComponent<Enemy>();
+
+        if(enemy && state.CompareState("Attack"))
         {
-            // get opponent component
-            // oppenent change health(atk)
+            enemy.TakeDamage(atk);
         }
 
         base.OnCollisionEnter2D(other);
     }
 
-    public void DealSkillDamage() // add enemy
+    public void DealSkillDamage(Enemy enemy)
     {
-        // deal enemy atk * skillAmp
+        enemy.TakeDamage(atk * skillAmp);
     }
 }

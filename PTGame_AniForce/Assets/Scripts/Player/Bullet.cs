@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class Bullet : MonoBehaviour
 {
-    [SerializeField] private UnityEvent<Collider2D> dealDame;
+    [SerializeField] private UnityEvent<Enemy> dealDame;
 
     void Update()
     {
@@ -23,9 +23,12 @@ public class Bullet : MonoBehaviour
             return;
         }
 
-        // find enemy component
-        // if enemy
-            dealDame.Invoke(other.collider);
+        var enemy = other.transform.GetComponent<Enemy>();
+
+        if(enemy)
+        {
+            dealDame.Invoke(enemy);
+        }
         
         gameObject.SetActive(false);
     }

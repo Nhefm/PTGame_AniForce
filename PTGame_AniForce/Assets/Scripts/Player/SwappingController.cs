@@ -5,6 +5,8 @@ using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using Cinemachine;
+using System.IO;
+using UnityEngine.SceneManagement;
 
 public class SwappingController : MonoBehaviour
 {
@@ -70,7 +72,7 @@ public class SwappingController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(currentLife);
+        // Debug.Log(currentLife);
         if(Input.GetKeyDown(KeyCode.F))
         {
             GetRandomAnimal();
@@ -121,5 +123,47 @@ public class SwappingController : MonoBehaviour
 
         --currentLife;
         GetRandomAnimal();
+    }
+
+    public void SaveData()
+    {
+        SaveData data = new()
+        {
+            savedHP = animalsToPool[choice].GetComponent<PlayerController>().GetCurrentHealthPercentage(),
+            savedLife = currentLife,
+            savedCheckpoint = CurrentSpawnPosition,
+            savedChoice = choice,
+            savedMap = SceneManager.GetActiveScene().name
+        };
+
+        string json = JsonUtility.ToJson(data);
+  
+        File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
+    }
+
+    public void LoadData()
+    {
+        string path = Application.persistentDataPath + "/savefile.json";
+        
+        if (File.Exists(path))
+        {
+            string json = File.ReadAllText(path);
+            SaveData data = JsonUtility.FromJson<SaveData>(json);
+
+            SceneManager.LoadScene(data.savedMap);
+            CurrentSpawnPosition = data.savedCheckpoint;
+            currentLife = data.savedLife;
+            SetCurrentAnimal(data.savedChoice);
+            animalsToPool[choice].GetComponent<PlayerController>().LoadData(data.savedHP);
+        }
+    }
+
+    public void SetCurrentAnimal(int idx)
+    {
+        animalsToPool[idx].SetActive(true);
+        animalsToPool[idx].transform.position = CurrentSpawnPosition;
+        animalsToPool[choice].SetActive(false);
+        choice = idx;
+        cinemachine.m_Follow = animalsToPool[choice].transform;
     }
 }

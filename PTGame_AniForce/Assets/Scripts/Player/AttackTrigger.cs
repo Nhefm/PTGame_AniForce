@@ -5,11 +5,14 @@ using UnityEngine.Events;
 
 public class AttackTrigger : MonoBehaviour
 {
-    [SerializeField] private UnityEvent<Collider2D> dealDamage;
+    [SerializeField] private UnityEvent<Enemy> dealDamage;
 
     private void OnTriggerEnter2D(Collider2D other) {
-        // get component enemy
-        // if enemy
-            dealDamage.Invoke(other);
+        var enemy = other.transform.GetComponent<Enemy>();
+
+        if(enemy)
+        {
+            dealDamage.Invoke(enemy);
+        }
     }
 }

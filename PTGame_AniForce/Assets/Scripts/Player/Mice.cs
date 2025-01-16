@@ -165,8 +165,8 @@ public class Mice : PlayerController
         base.ChangeHealth(amount);
     }
 
-    public void DealAttackDamage() // add enemy
+    public void DealAttackDamage(Enemy enemy)
     {
-        // deal enemy atk
+        enemy.TakeDamage(atk);
     }
 }

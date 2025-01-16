@@ -72,7 +72,6 @@ public abstract class PlayerController : MonoBehaviour
     
     virtual protected void Update()
     {
-        Debug.Log(state);
         direction = transform.localScale.x;
         SlopeHandler();
         PreventSliding();
@@ -360,11 +359,18 @@ public abstract class PlayerController : MonoBehaviour
         {
             temp = Physics2D.Raycast(origin, Vector2.down, slopeCheckDistance, LayerMask.GetMask("Ground"));
 
+            if(!temp)
+            {
+                return;
+            }
+
             if(temp.point.y > hit.point.y)
             {
                 hit = temp;
             }
         }
+
+        Debug.DrawRay(hit.point, hit.normal);
     }
 
     public IState StateTransition()
@@ -424,5 +430,10 @@ public abstract class PlayerController : MonoBehaviour
         if(maxHP == 0) return 1;
         
         return currentHP / maxHP;
+    }
+
+    public void LoadData(float percentage)
+    {
+        currentHP = maxHP * percentage;
     }
 }
