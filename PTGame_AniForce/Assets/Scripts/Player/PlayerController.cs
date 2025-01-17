@@ -409,7 +409,7 @@ public abstract class PlayerController : MonoBehaviour
 
     public void SetCheckpoint()
     {
-        RaycastHit2D obj = Physics2D.Raycast(bc.bounds.center, Vector2.down, slopeCheckDistance, LayerMask.GetMask("Checkpoint"));
+        RaycastHit2D obj = Physics2D.Raycast(bc.bounds.max, Vector2.down, 10, LayerMask.GetMask("Checkpoint"));
         
         if(!obj)
         {

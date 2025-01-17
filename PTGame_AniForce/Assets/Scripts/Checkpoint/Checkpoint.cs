@@ -7,7 +7,7 @@ public class Checkpoint : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        isCheck = false;    
+        isCheck = false;
     }
 
     public bool SetCheckpoint()

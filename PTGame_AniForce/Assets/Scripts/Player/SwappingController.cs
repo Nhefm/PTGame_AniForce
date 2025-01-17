@@ -10,26 +10,21 @@ using UnityEngine.SceneManagement;
 
 public class SwappingController : MonoBehaviour
 {
-    // singleton
-    public static SwappingController instance;
-
     // pool
     [SerializeField] private List<GameObject> animalsOnPool;
-    private List<GameObject> animalsToPool;
+    private static List<GameObject> animalsToPool;
     // random
-    private int choice;
-    private bool canRandom;
-    [SerializeField] float randomCooldown;
+    private static int choice;
 
     // swap fx
     [SerializeField] private GameObject swapVFX;
-    private GameObject swapVFXOnScreen;
+    private static GameObject swapVFXOnScreen;
     [SerializeField] private AudioClip swapSFX;
-    private AudioSource audioSource;
+    private static AudioSource audioSource;
 
     // cinemachine
     [SerializeField] private GameObject cameraObject;
-    private CinemachineVirtualCamera cinemachine;
+    private static CinemachineVirtualCamera cinemachine;
 
     // checkpoint
     [SerializeField] Vector2 spawnPosition;
@@ -37,17 +32,16 @@ public class SwappingController : MonoBehaviour
     [SerializeField] private int maxLife;
     static private int currentLife;
 
-    private void Awake() {
-        instance = this;
-        DontDestroyOnLoad(gameObject);
-    }
-
     // Start is called before the first frame update
     void Start()
     {
         choice = 0;
-        canRandom = true;
-        CurrentSpawnPosition = spawnPosition;
+
+        if(CurrentSpawnPosition == Vector2.zero)
+        {
+            CurrentSpawnPosition = spawnPosition;
+        }
+
         currentLife = maxLife;
         swapVFXOnScreen = Instantiate(swapVFX);
         audioSource = GetComponent<AudioSource>();
@@ -77,15 +71,20 @@ public class SwappingController : MonoBehaviour
         {
             GetRandomAnimal();
         }
+
+        if(Input.GetKeyDown(KeyCode.G))
+        {
+            SaveData();
+        }
+
+        if(Input.GetKeyDown(KeyCode.H))
+        {
+            LoadData();
+        }
     }
 
     public void GetRandomAnimal()
     {
-        if(!canRandom)
-        {
-            return;
-        }
-
         int previousChoice = choice;
 
         while(previousChoice == choice)
@@ -102,16 +101,8 @@ public class SwappingController : MonoBehaviour
         swapVFXOnScreen.transform.position = animalsToPool[choice].transform.position;
         swapVFXOnScreen.GetComponent<Animator>().SetTrigger("Swap");
         audioSource.PlayOneShot(swapSFX);
-
-        // StartCoroutine(RandomCooldown());
     }
 
-    public IEnumerator RandomCooldown()
-    {
-        canRandom = false;
-        yield return new WaitForSeconds(randomCooldown);
-        canRandom = true;
-    }
 
     public void Swap()
     {
@@ -132,7 +123,6 @@ public class SwappingController : MonoBehaviour
             savedHP = animalsToPool[choice].GetComponent<PlayerController>().GetCurrentHealthPercentage(),
             savedLife = currentLife,
             savedCheckpoint = CurrentSpawnPosition,
-            savedChoice = choice,
             savedMap = SceneManager.GetActiveScene().name
         };
 
@@ -141,7 +131,7 @@ public class SwappingController : MonoBehaviour
         File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
     }
 
-    public void LoadData()
+    public static void LoadData()
     {
         string path = Application.persistentDataPath + "/savefile.json";
         
@@ -153,17 +143,7 @@ public class SwappingController : MonoBehaviour
             SceneManager.LoadScene(data.savedMap);
             CurrentSpawnPosition = data.savedCheckpoint;
             currentLife = data.savedLife;
-            SetCurrentAnimal(data.savedChoice);
             animalsToPool[choice].GetComponent<PlayerController>().LoadData(data.savedHP);
         }
-    }
-
-    public void SetCurrentAnimal(int idx)
-    {
-        animalsToPool[idx].SetActive(true);
-        animalsToPool[idx].transform.position = CurrentSpawnPosition;
-        animalsToPool[choice].SetActive(false);
-        choice = idx;
-        cinemachine.m_Follow = animalsToPool[choice].transform;
     }
 }
