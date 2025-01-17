@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2832255203780538255}
   - component: {fileID: 4399465828421246190}
   - component: {fileID: 5049846922895953183}
+  - component: {fileID: 7442204381731637607}
   m_Layer: 0
   m_Name: Pinwheel
   m_TagString: Untagged
@@ -110,3 +111,21 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7442204381731637607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8798403182470798885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: faba27bc406bb1446b8aa3fb295f472d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
+  damage: 10
+  npcAnimator: {fileID: 5049846922895953183}
+  attackRange: 10
+  attackDamage: 10
+  attackCooldown: 3

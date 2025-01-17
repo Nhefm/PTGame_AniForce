@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5805769593603133912}
   - component: {fileID: 696634656805474253}
   - component: {fileID: 5200510802580820361}
+  - component: {fileID: 7894014073326274580}
   m_Layer: 0
   m_Name: Drone Scan
   m_TagString: Untagged
@@ -110,3 +111,21 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7894014073326274580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4955630603601227895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 602bae8642b4cb943a8f4cb30629faf4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
+  damage: 10
+  npcAnimator: {fileID: 5200510802580820361}
+  attackRange: 10
+  attackDamage: 10
+  attackCooldown: 5
