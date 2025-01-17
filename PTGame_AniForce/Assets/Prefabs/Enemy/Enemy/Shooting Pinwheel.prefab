@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4849838160117226437}
   - component: {fileID: 5101840913437063359}
   - component: {fileID: 195174765180329994}
+  - component: {fileID: 505973427719319663}
   m_Layer: 0
   m_Name: Shooting Pinwheel
   m_TagString: Untagged
@@ -110,3 +111,21 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &505973427719319663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7280491865309004786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48c0983242ee33b4b82a98403038cc15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
+  damage: 10
+  npcAnimator: {fileID: 195174765180329994}
+  attackRange: 10
+  attackDamage: 10
+  attackCooldown: 3
