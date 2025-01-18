@@ -18,7 +18,7 @@ public class DroneCapsuleScript : Enemy
             if (playerController != null)
             {
                 playerController.ChangeHealth(damage);
-                Debug.Log($"NPC attacked the player for {damage} damage.");
+                Debug.Log($"{this.gameObject.name} attacked the player for {damage} damage.");
 
                 // Set the next attack time
                 nextAttackTime = Time.time + attackCooldown;
