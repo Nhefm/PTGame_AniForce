@@ -15,7 +15,7 @@ public class Bullet : MonoBehaviour
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
-        
+
         if(other.collider.CompareTag("Player"))
         {
             return;
@@ -27,7 +27,29 @@ public class Bullet : MonoBehaviour
         {
             enemy.TakeDamage(2);
         }
+
+        gameObject.SetActive(false);
+    }
+
+    private void OnTriggerEnter2D(Collider2D other) {
         
+        if(other.CompareTag("Player"))
+        {
+            return;
+        }
+
+        if(other.CompareTag("Boundary"))
+        {
+            return;
+        }
+
+        var enemy = other.transform.GetComponent<Enemy>();
+
+        if(enemy)
+        {
+            enemy.TakeDamage(2);
+        }
+
         gameObject.SetActive(false);
     }
 

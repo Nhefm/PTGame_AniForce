@@ -175,18 +175,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2475dd9ff264f904784455533310fb38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dealDame:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2866977850586539810, guid: 7f7c89d0f2571124f8536ab06d60df44, type: 3}
-        m_TargetAssemblyTypeName: Pigeon, Assembly-CSharp
-        m_MethodName: DealDamage
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: Enemy, Assembly-CSharp
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2

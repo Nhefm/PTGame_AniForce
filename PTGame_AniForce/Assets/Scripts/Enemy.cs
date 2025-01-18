@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Unity.Behavior;
 using UnityEngine;
 
@@ -11,10 +12,21 @@ public class Enemy : MonoBehaviour
     public float attackRange = 2f;
     public float attackCooldown = 0.5f;
     public float nextAttackTime;
+    private bool canHurt;
 
     public void TakeDamage(float damage)
     {
+        if(!canHurt) return;
+        
         health -= damage;
+        StartCoroutine(TakeDamgeCooldown());
+    }
+
+    IEnumerator TakeDamgeCooldown()
+    {
+        canHurt = false;
+        yield return new WaitForSeconds(0.5f);
+        canHurt = true;
     }
 
     protected virtual void _Attack(float damage, GameObject player)
@@ -40,5 +52,6 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         this.GetComponent<BehaviorGraphAgent>().SetVariableValue("AttackRange", attackRange);
+        canHurt = true;
     }
 }

@@ -51,7 +51,7 @@ public class Cat : SingleAnimal
         base.ChangeHealth(amount);
     }
 
-    override protected void OnCollisionEnter2D(Collision2D other) {
+    protected void OnTriggerStay2D(Collider2D other) {
         
         var enemy = other.transform.GetComponent<Enemy>();
 
@@ -66,7 +66,5 @@ public class Cat : SingleAnimal
                 enemy.TakeDamage(atk * skillAmp);
             }
         }
-        
-        base.OnCollisionEnter2D(other);
     }
 }

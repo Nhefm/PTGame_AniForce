@@ -24,16 +24,13 @@ public class Dog : SingleAnimal
         }
     }
 
-    override protected void OnCollisionEnter2D(Collision2D other) {
-        
+    private void OnTriggerStay2D(Collider2D other) {
         var enemy = other.transform.GetComponent<Enemy>();
 
         if(enemy && state.CompareState("Attack"))
         {
             enemy.TakeDamage(atk);
-        }
-
-        base.OnCollisionEnter2D(other);
+        }   
     }
 
     public void DealSkillDamage(Enemy enemy)
