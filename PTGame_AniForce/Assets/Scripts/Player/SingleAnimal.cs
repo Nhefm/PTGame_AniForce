@@ -36,7 +36,7 @@ public abstract class SingleAnimal : PlayerController
         animator.SetTrigger("Hurt");
         isInvincible = true;
 
-        if(currentHP == 0)
+        if(currentHP <= 0)
         {
             animator.SetBool("isDeath", true);
         }

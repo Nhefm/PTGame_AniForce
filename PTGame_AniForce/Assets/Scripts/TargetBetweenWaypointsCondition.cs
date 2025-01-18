@@ -38,22 +38,27 @@ public partial class TargetBetweenWaypointsCondition : Condition
 
     private bool IsPointBetween(Vector3 point, Vector3 start, Vector3 end)
     {
-        // Calculate the projection of the point onto the line segment
-        Vector3 line = end - start;
-        Vector3 toPoint = point - start;
-
-        // Dot product to check alignment
-        float dotProduct = Vector3.Dot(toPoint, line.normalized);
-
-        // Check if the target point is within the segment bounds
-        if (dotProduct < 0 || dotProduct > line.magnitude)
+        if (start.x >= end.x)
         {
-            return false; // Target is outside the segment
+            if (point.x > start.x)
+                return false;
+            if (point.x < end.x)
+                return false;
+
+            if (Mathf.Abs(point.y - start.y) <= 3f)
+            {
+                return true;
+            }
+
+            return false;
         }
 
-        // Check if the point lies on the line (allow small tolerance for floating-point errors)
-        float distanceToLine = Vector3.Cross(line.normalized, toPoint).magnitude;
-        return (distanceToLine <= 0.5f); // Adjust tolerance if needed
+        else if (start.x < end.x)
+        {
+            return IsPointBetween(point, end, start);
+        }
+
+        return false;
     }
     public override void OnStart()
     {

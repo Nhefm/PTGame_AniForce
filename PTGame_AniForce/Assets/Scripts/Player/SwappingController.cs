@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,7 @@ using UnityEngine;
 using Cinemachine;
 using System.IO;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 public class SwappingController : MonoBehaviour
 {
@@ -145,5 +147,15 @@ public class SwappingController : MonoBehaviour
             currentLife = data.savedLife;
             animalsToPool[choice].GetComponent<PlayerController>().LoadData(data.savedHP);
         }
+    }
+
+    public void LateUpdate()
+    {
+        if (PlayerPrefs.GetInt("isLoad") == 1)
+        {
+            PlayerPrefs.SetInt("isLoad", 0);
+            LoadData();
+        }
+        
     }
 }

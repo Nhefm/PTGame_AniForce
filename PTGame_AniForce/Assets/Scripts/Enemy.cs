@@ -1,9 +1,16 @@
+using System;
+using Unity.Behavior;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public float health = 3f;
-    public float damage = 1f;
+    public float health = 100f;
+    public float damage = 10f;
+    public Animator npcAnimator; // Animator to control NPC animations
+
+    public float attackRange = 2f;
+    public float attackCooldown = 0.5f;
+    public float nextAttackTime;
 
     public void TakeDamage(float damage)
     {
@@ -15,10 +22,10 @@ public class Enemy : MonoBehaviour
         
     }
 
-    public void Attack(float damage)
+    public void Attack()
     {
         var player = GameObject.FindGameObjectsWithTag("Player");
-        _Attack(damage, player[0]);
+        _Attack(-damage, player[0]);
     }
     
     // Update is called once per frame
@@ -28,5 +35,10 @@ public class Enemy : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    void Start()
+    {
+        this.GetComponent<BehaviorGraphAgent>().SetVariableValue("AttackRange", attackRange);
     }
 }

@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 5101840913437063359}
   - component: {fileID: 195174765180329994}
   - component: {fileID: 505973427719319663}
-  - component: {fileID: 3791072651132693780}
+  - component: {fileID: 2146726862978281575}
+  - component: {fileID: 6801934257073872760}
   m_Layer: 0
   m_Name: Shooting Pinwheel
   m_TagString: Untagged
@@ -127,10 +128,10 @@ MonoBehaviour:
   health: 3
   damage: 1
   npcAnimator: {fileID: 195174765180329994}
-  attackRange: 10
-  attackDamage: 10
-  attackCooldown: 3
---- !u!114 &3791072651132693780
+  attackRange: 3
+  attackCooldown: 2
+  nextAttackTime: 0
+--- !u!114 &2146726862978281575
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -184,6 +185,50 @@ MonoBehaviour:
           m_Value0: 3263241936796351275
           m_Value1: 10237546397966417893
         Name: WayPoints
-        m_Value:
-        - {fileID: 0}
-        - {fileID: 0}
+        m_Value: []
+--- !u!61 &6801934257073872760
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7280491865309004786}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1.125}
+    newSize: {x: 0.32, y: 0.35}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1.125}
+  m_EdgeRadius: 0

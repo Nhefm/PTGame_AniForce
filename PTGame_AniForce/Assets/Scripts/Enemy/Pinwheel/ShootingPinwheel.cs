@@ -2,20 +2,10 @@ using UnityEngine;
 
 public class ShootingPinwheel : Enemy
 {
-    public Animator npcAnimator; // Animator to control NPC animations
-
-    public float attackRange = 10f;
-    public float attackDamage = 10f;
-    public float attackCooldown = 3f;
-
-    private float nextAttackTime;
-    private bool isDead = false;
-
-    
     protected override void _Attack(float damage, GameObject player)
     {
         // Check if the player is within attack range
-        if (Vector3.Distance(player.transform.position, transform.position) <= attackRange && Time.time >= nextAttackTime && !isDead)
+        if (Vector3.Distance(player.transform.position, transform.position) <= attackRange && Time.time >= nextAttackTime)
         {
             // Set attack animation bool
             if (npcAnimator != null)

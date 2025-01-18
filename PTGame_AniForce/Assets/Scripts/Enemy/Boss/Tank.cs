@@ -3,14 +3,6 @@ using UnityEngine;
 public class Tank : Enemy
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    public Animator npcAnimator; // Animator to control NPC animations
-
-    public float attackRange = 10f;
-    public float attackDamage = 10f;
-    public float attackCooldown = 5f;
-
-    private float nextAttackTime;
-
 
     protected override void _Attack(float damage, GameObject player)
     {

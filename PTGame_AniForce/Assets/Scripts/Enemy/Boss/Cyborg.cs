@@ -1,16 +1,8 @@
+using System;
 using UnityEngine;
 
 public class Cyborg : Enemy
 {
-    public Animator npcAnimator; // Animator to control NPC animations
-
-    public float attackRange = 10f;
-    public float attackDamage = 10f;
-    public float attackCooldown = 5f;
-
-    private float nextAttackTime;
-
-
     protected override void _Attack(float damage, GameObject player)
     {
         // Check if the player is within attack range

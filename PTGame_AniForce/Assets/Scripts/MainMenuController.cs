@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using PlayerPrefs = UnityEngine.PlayerPrefs;
 
 #if UNITY_EDITOR
 using UnityEditor;  // Needed for EditorApplication.isPlaying
@@ -56,7 +57,8 @@ public class MainMenuController : MonoBehaviour
     private void HandleLoadGame()
     {
         Debug.Log("Load Game button clicked.");
-        // Example: SceneManager.LoadScene("LoadGameScene");
+        PlayerPrefs.SetInt("isLoad", 1);
+        SceneManager.LoadScene("map1");
     }
 
     /// <summary>
@@ -65,6 +67,7 @@ public class MainMenuController : MonoBehaviour
     private void HandleNewGame()
     {
         Debug.Log("New Game button clicked.");
+        PlayerPrefs.SetInt("isLoad", 0);
         SceneManager.LoadScene("map1");
     }
 
