@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Tank : Enemy
 {
+    [SerializeField] GameObject portal;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     protected override void _Attack(float damage, GameObject player)
@@ -31,5 +32,9 @@ public class Tank : Enemy
                 npcAnimator.SetBool("Attack", false);
             }
         }
+    }
+
+    protected private void OnDestroy() {
+        portal.SetActive(true);
     }
 }

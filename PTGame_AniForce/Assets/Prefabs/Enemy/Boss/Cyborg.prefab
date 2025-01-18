@@ -125,12 +125,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8935cb318a10ea43b0af756f16f7996, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
+  health: 5
   damage: 3
   npcAnimator: {fileID: 8406932157551924201}
   attackRange: 2
   attackCooldown: 3
   nextAttackTime: 0
+  portal: {fileID: 0}
 --- !u!114 &283656003033355379
 MonoBehaviour:
   m_ObjectHideFlags: 0
