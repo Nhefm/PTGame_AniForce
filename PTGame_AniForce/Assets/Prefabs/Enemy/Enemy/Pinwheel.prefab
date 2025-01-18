@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 4399465828421246190}
   - component: {fileID: 5049846922895953183}
   - component: {fileID: 7442204381731637607}
-  - component: {fileID: 3057044383758528991}
   - component: {fileID: 8769395829468337002}
+  - component: {fileID: 2125580594716911441}
   m_Layer: 0
   m_Name: Pinwheel
   m_TagString: Untagged
@@ -131,63 +131,6 @@ MonoBehaviour:
   attackRange: 0.1
   attackCooldown: 3
   nextAttackTime: 0
---- !u!114 &3057044383758528991
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8798403182470798885}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0038c16c34866b4f9e25c9c0dc0f7e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Graph: {fileID: 6324162848779626560, guid: 061d0770b11c6cb44969af8a9dda0025, type: 2}
-  m_BlackboardVariableOverridesList:
-  - rid: 4926786672350199874
-  - rid: 4926786672350199875
-  - rid: 4926786672350199876
-  - rid: 4926786672350199886
-  m_IsInitialised: 0
-  m_IsStarted: 0
-  references:
-    version: 2
-    RefIds:
-    - rid: 4926786672350199874
-      type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 1
-          m_Value1: 0
-        Name: Self
-        m_Value: {fileID: 8798403182470798885}
-    - rid: 4926786672350199875
-      type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 13189477460470998049
-          m_Value1: 17595699630935529309
-        Name: MoveSpeed
-        m_Value: 2
-    - rid: 4926786672350199876
-      type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 14265116129811559740
-          m_Value1: 17955435532581642681
-        Name: AttackRange
-        m_Value: 1
-    - rid: 4926786672350199886
-      type: {class: 'BlackboardVariable`1[[System.Collections.Generic.List`1[[UnityEngine.GameObject, UnityEngine.CoreModule]], mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 3263241936796351275
-          m_Value1: 10237546397966417893
-        Name: WayPoints
-        m_Value:
-        - {fileID: 0}
-        - {fileID: 0}
 --- !u!61 &8769395829468337002
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -234,3 +177,60 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.90625, y: 0.75}
   m_EdgeRadius: 0
+--- !u!114 &2125580594716911441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8798403182470798885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0038c16c34866b4f9e25c9c0dc0f7e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Graph: {fileID: 6324162848779626560, guid: 061d0770b11c6cb44969af8a9dda0025, type: 2}
+  m_BlackboardVariableOverridesList:
+  - rid: 3184603892431978536
+  - rid: 3184603892431978537
+  - rid: 3184603892431978538
+  - rid: 3184603892431978539
+  m_IsInitialised: 0
+  m_IsStarted: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 3184603892431978536
+      type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 1
+          m_Value1: 0
+        Name: Self
+        m_Value: {fileID: 8798403182470798885}
+    - rid: 3184603892431978537
+      type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 13189477460470998049
+          m_Value1: 17595699630935529309
+        Name: MoveSpeed
+        m_Value: 3
+    - rid: 3184603892431978538
+      type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 14265116129811559740
+          m_Value1: 17955435532581642681
+        Name: AttackRange
+        m_Value: 2
+    - rid: 3184603892431978539
+      type: {class: 'BlackboardVariable`1[[System.Collections.Generic.List`1[[UnityEngine.GameObject, UnityEngine.CoreModule]], mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 3263241936796351275
+          m_Value1: 10237546397966417893
+        Name: WayPoints
+        m_Value:
+        - {fileID: 0}
+        - {fileID: 0}
