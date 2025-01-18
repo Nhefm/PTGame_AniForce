@@ -25,7 +25,7 @@ public class Dog : SingleAnimal
     }
 
     override protected void OnCollisionEnter2D(Collision2D other) {
-
+        
         var enemy = other.transform.GetComponent<Enemy>();
 
         if(enemy && state.CompareState("Attack"))

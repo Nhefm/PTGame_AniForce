@@ -203,8 +203,4 @@ public class Pigeon : SingleAnimal
         
         return base.AttackTimer();
     }
-    public void DealDamage(Enemy enemy)
-    {
-        enemy.TakeDamage(atk);
-    }
 }

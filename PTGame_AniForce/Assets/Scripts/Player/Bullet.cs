@@ -5,8 +5,6 @@ using UnityEngine.Events;
 
 public class Bullet : MonoBehaviour
 {
-    [SerializeField] private UnityEvent<Enemy> dealDame;
-
     void Update()
     {
         
@@ -27,7 +25,7 @@ public class Bullet : MonoBehaviour
 
         if(enemy)
         {
-            dealDame.Invoke(enemy);
+            enemy.TakeDamage(2);
         }
         
         gameObject.SetActive(false);
