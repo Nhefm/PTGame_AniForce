@@ -421,7 +421,8 @@ public abstract class PlayerController : MonoBehaviour
         if(checkpoint.SetCheckpoint())
         {
             SwappingController.CurrentSpawnPosition = obj.point;
-            swappingController.Swap();
+            swappingController.SaveData();
+            swappingController.GetRandomAnimal();
         }
     }
 
