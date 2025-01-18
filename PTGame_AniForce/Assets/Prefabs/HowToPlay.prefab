@@ -1156,8 +1156,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 19, y: -6}
-  m_SizeDelta: {x: 301.4, y: 50}
+  m_AnchoredPosition: {x: 105.2, y: -405.7}
+  m_SizeDelta: {x: 234, y: 613.18}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8150259769800296089
 CanvasRenderer:
@@ -1187,26 +1187,18 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Trong tr\xF2 ch\u01A1i, b\u1EA1n s\u1EBD ho\xE1 th\xE2n th\xE0nh nh\u1EEFng
-    con v\u1EADt \u0111\u1EC3 ti\xEAu di\u1EC7t k\u1EBB \u0111\u1ECBch b\u1EA3o v\u1EC7
-    qu\xEA h\u01B0\u01A1ng. S\u1EED d\u1EE5ng c\xE1c n\xFAt, W S \u0111\u1EC3 nh\u1EA3y
-    l\xEAn hay ng\u1ED3i xu\u1ED1ng, A D \u0111\u1EC3 di chuy\u1EC3n sang b\xEAn
-    tr\xE1i v\xE0 b\xEAn ph\u1EA3i nh\u1EB1m v\u01B0\u1EE3t \u0111\u1ECBa h\xECnh
-    n\xE9 tr\xE1nh nh\u1EEFng k\u0129 n\u0103ng c\u1EE7a k\u1EBB \u0111\u1ECBch.
-    H\u1EA1 g\u1EE5c k\u1EBB \u0111\u1ECBch b\u1EB1ng c\xE1ch nh\u1EA5p chu\u1ED9t
-    ph\u1EA3i (left-click) \u0111\u1EC3 thi tri\u1EC3n t\u1EA5n c\xF4ng \u0111\u1EB7c
-    tr\u01B0ng c\u1EE7a nh\xE2n v\u1EADt m\xECnh. M\u1ED7i nh\xE2n v\u1EADt c\xF3
-    m\u1ED9t k\u0129 n\u0103ng \u0111\u1EB7c bi\u1EC7t gi\xFAp gia t\u0103ng \u0111\xE1ng
-    k\u1EC3 s\u1EE9c m\u1EA1nh b\u1EB1ng c\xE1ch s\u1EED d\u1EE5ng n\xFAt E \u0111\u1EC3
-    thi tri\u1EC3n. Nh\xE2n v\u1EADt c\u1EE7a ng\u01B0\u1EDDi ch\u01A1i s\u1EBD thay
-    \u0111\u1ED5i ng\u1EABu nhi\xEAn m\u1ED7i khi ti\xEAu di\u1EC7t k\u1EBB \u0111\u1ECBch
-    hay qua m\xE0n. M\u1ED7i nh\xE2n v\u1EADt c\xF3 m\u1ED9t \u0111i\u1EC3m m\u1EA1nh
-    ri\xEAng k\u1EBFt h\u1EE3p v\u1EDBi k\u0129 n\u0103ng c\u1EE7a ng\u01B0\u1EDDi
-    ch\u01A1i s\u1EBD t\u1EA1o ra nh\u1EEFng chu\u1ED7i k\u0129 n\u0103ng nhanh ch\xF3ng
-    ti\xEAu di\u1EC7t k\u1EBB \u0111\u1ECBch."
+  m_text: "In this game, you will take on the form of various animals to defeat enemies
+    and protect your homeland. Use the W and S keys to jump or crouch, and the A
+    and D keys to move left and right to navigate the terrain and dodge enemy abilities.
+    Defeat enemies by right-clicking (left-click) to perform your character\u2019s
+    signature attack. Each character has a special skill that significantly increases
+    their power, activated by pressing E. Your character will change randomly whenever
+    you defeat an enemy or clear a stage. Each character has its own unique strengths,
+    and combining those with the player\u2019s abilities creates rapid skill combos
+    to quickly take down enemies."
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8a2e254c33ee20e42b09194c57cebbd9, type: 2}
+  m_sharedMaterial: {fileID: -4795094679609381665, guid: 8a2e254c33ee20e42b09194c57cebbd9, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1230,14 +1222,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 22
+  m_fontSizeBase: 22
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 8
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
