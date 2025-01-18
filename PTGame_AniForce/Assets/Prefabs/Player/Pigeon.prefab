@@ -126,7 +126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bafc12b22f79cf4484823b7fd82bae7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  atk: 0
+  atk: 1
   maxHP: 3
   speed: 3
   jumpForce: 0

@@ -121,7 +121,6 @@ GameObject:
   - component: {fileID: 5810238255671246844}
   - component: {fileID: 6005925648119322769}
   - component: {fileID: 2560944363993334342}
-  - component: {fileID: 1764805273867779775}
   m_Layer: 8
   m_Name: PoisonVFX
   m_TagString: Untagged
@@ -222,33 +221,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1764805273867779775
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3401547641374267653}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61bce162bb3d9694ab9766f831ec50c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dealDamage:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 9085710202748843852}
-        m_TargetAssemblyTypeName: Mice, Assembly-CSharp
-        m_MethodName: DealAttackDamage
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: Enemy, Assembly-CSharp
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!1 &4084842680958503569
 GameObject:
   m_ObjectHideFlags: 0
@@ -259,6 +231,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5797209230716450286}
   - component: {fileID: 3442113445720569562}
+  - component: {fileID: 3365582373276447744}
   m_Layer: 8
   m_Name: HitRange
   m_TagString: Untagged
@@ -317,6 +290,18 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0.05, y: 0.05}
   m_Radius: 0.8
+--- !u!114 &3365582373276447744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4084842680958503569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61bce162bb3d9694ab9766f831ec50c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4340682580297927371
 GameObject:
   m_ObjectHideFlags: 0
@@ -439,11 +424,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43f775427d012e04e91924974d18934c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  atk: 0
+  atk: 1
   maxHP: 5
   speed: 4
   jumpForce: 8
-  skillAmp: 0
+  skillAmp: 1.5
   invincibleDuration: 1
   attackDuration: 0
   skillDuration: 0.5

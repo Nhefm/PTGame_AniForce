@@ -198,8 +198,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1f5048cb57d2d44480aae420bb7be27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
-  damage: 10
+  health: 3
+  damage: 1
   npcAnimator: {fileID: 3753599155686447849}
   attackRange: 10
   attackDamage: 10

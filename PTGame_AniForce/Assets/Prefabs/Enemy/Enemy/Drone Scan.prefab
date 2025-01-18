@@ -123,8 +123,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 602bae8642b4cb943a8f4cb30629faf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
-  damage: 10
+  health: 3
+  damage: 1
   npcAnimator: {fileID: 5200510802580820361}
   attackRange: 10
   attackDamage: 10

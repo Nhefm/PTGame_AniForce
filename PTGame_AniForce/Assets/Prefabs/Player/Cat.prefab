@@ -199,11 +199,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa84d994e212e21469bb0dd21c006f30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  atk: 0
+  atk: 2
   maxHP: 4
   speed: 4
   jumpForce: 8
-  skillAmp: 0
+  skillAmp: 1.5
   invincibleDuration: 1
   attackDuration: 0.7
   skillDuration: 2.5
