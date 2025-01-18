@@ -1187,9 +1187,23 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Use keyboard
-
-'
+  m_text: "Trong tr\xF2 ch\u01A1i, b\u1EA1n s\u1EBD ho\xE1 th\xE2n th\xE0nh nh\u1EEFng
+    con v\u1EADt \u0111\u1EC3 ti\xEAu di\u1EC7t k\u1EBB \u0111\u1ECBch b\u1EA3o v\u1EC7
+    qu\xEA h\u01B0\u01A1ng. S\u1EED d\u1EE5ng c\xE1c n\xFAt, W S \u0111\u1EC3 nh\u1EA3y
+    l\xEAn hay ng\u1ED3i xu\u1ED1ng, A D \u0111\u1EC3 di chuy\u1EC3n sang b\xEAn
+    tr\xE1i v\xE0 b\xEAn ph\u1EA3i nh\u1EB1m v\u01B0\u1EE3t \u0111\u1ECBa h\xECnh
+    n\xE9 tr\xE1nh nh\u1EEFng k\u0129 n\u0103ng c\u1EE7a k\u1EBB \u0111\u1ECBch.
+    H\u1EA1 g\u1EE5c k\u1EBB \u0111\u1ECBch b\u1EB1ng c\xE1ch nh\u1EA5p chu\u1ED9t
+    ph\u1EA3i (left-click) \u0111\u1EC3 thi tri\u1EC3n t\u1EA5n c\xF4ng \u0111\u1EB7c
+    tr\u01B0ng c\u1EE7a nh\xE2n v\u1EADt m\xECnh. M\u1ED7i nh\xE2n v\u1EADt c\xF3
+    m\u1ED9t k\u0129 n\u0103ng \u0111\u1EB7c bi\u1EC7t gi\xFAp gia t\u0103ng \u0111\xE1ng
+    k\u1EC3 s\u1EE9c m\u1EA1nh b\u1EB1ng c\xE1ch s\u1EED d\u1EE5ng n\xFAt E \u0111\u1EC3
+    thi tri\u1EC3n. Nh\xE2n v\u1EADt c\u1EE7a ng\u01B0\u1EDDi ch\u01A1i s\u1EBD thay
+    \u0111\u1ED5i ng\u1EABu nhi\xEAn m\u1ED7i khi ti\xEAu di\u1EC7t k\u1EBB \u0111\u1ECBch
+    hay qua m\xE0n. M\u1ED7i nh\xE2n v\u1EADt c\xF3 m\u1ED9t \u0111i\u1EC3m m\u1EA1nh
+    ri\xEAng k\u1EBFt h\u1EE3p v\u1EDBi k\u0129 n\u0103ng c\u1EE7a ng\u01B0\u1EDDi
+    ch\u01A1i s\u1EBD t\u1EA1o ra nh\u1EEFng chu\u1ED7i k\u0129 n\u0103ng nhanh ch\xF3ng
+    ti\xEAu di\u1EC7t k\u1EBB \u0111\u1ECBch."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1254,7 +1268,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: -262.7122, y: -288.98364, z: 0, w: -320.50903}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
